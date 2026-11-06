@@ -10,7 +10,7 @@
 
 </div>
 
-<img src="docs/demo.gif" alt="Drawer, session, settings and Files on a phone" width="300" align="left"><img src="docs/spacer.png" width="28" height="1000" alt="" align="left">
+<img src="docs/demo.gif" alt="Drawer, session, settings and Files on a phone" width="300" align="left"><img src="docs/spacer.png" width="28" alt="" align="left">
 
 <p><strong>Мобильный интерфейс для Web UI DeepSeek Harness: настоящий дровер, свайпы от края, читаемые настройки и работающая правая панель — без правок ядра.</strong></p>
 <p>DSH 0.2.x — десктопный: три колонки, навигация настроек в 188px, правая панель нулевой ширины и композер 14px, из-за которого iOS зумит страницу. На экране 390px остаётся полоска чата, нечитаемые настройки и никакого доступа к Files и просмотру кода.</p>
