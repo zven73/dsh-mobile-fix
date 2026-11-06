@@ -10,7 +10,7 @@
 
 </div>
 
-<picture><source media="(max-width: 760px)" srcset="docs/pixel.png"><img src="docs/demo.gif" alt="Drawer, session, settings and Files on a phone" align="left"></picture><picture><source media="(max-width: 760px)" srcset="docs/pixel.png"><img src="docs/spacer.png" width="28" alt="" align="left"></picture>
+<picture><source media="(max-width: 760px)" srcset="docs/pixel.png"><img src="docs/demo.gif" alt="Drawer, session, settings and Files on a phone" align="left"></picture><picture><source media="(max-width: 760px)" srcset="docs/pixel.png"><img src="docs/spacer.png" alt="" align="left"></picture>
 
 <p><strong>A phone-first fix for the DeepSeek Harness Web UI — a real drawer, edge swipes, readable settings and a working right panel, without touching the core.</strong></p>
 <p>DSH 0.2.x is desktop-first: a three-column grid, a 188px settings nav, a 0px right panel and a 14px composer that makes iOS zoom the page. On a phone that leaves a sliver of chat, unreadable settings and no way to reach Files or the code viewer.</p>
@@ -21,7 +21,7 @@
 </ul>
 <p>No build step, no host code — one client module, MIT licensed.</p>
 
-<picture><source media="(min-width: 761px)" srcset="docs/pixel.png"><img src="docs/demo.gif" alt="Drawer, session, settings and Files on a phone" width="300"></picture>
+<picture><source media="(min-width: 761px)" srcset="docs/pixel.png"><img src="docs/demo.gif" alt="Drawer, session, settings and Files on a phone"></picture>
 
 <br clear="all">
 
