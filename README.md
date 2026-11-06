@@ -116,4 +116,4 @@ MIT — see [LICENSE](LICENSE).
 
 ---
 
-Русская версия: [README.ru.md](README.ru.md).
+English · [Русский](README.ru.md) · [中文](README.zh.md)

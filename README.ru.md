@@ -114,4 +114,4 @@ MIT — см. [LICENSE](LICENSE).
 
 ---
 
-English: [README.md](README.md).
+[English](README.md) · Русский · [中文](README.zh.md)
