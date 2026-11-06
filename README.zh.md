@@ -24,7 +24,7 @@
 <li><strong>Files、终端和代码查看器可用</strong> —— 右侧面板在手机上变成全屏面板。</li>
 </ul>
 
-<p>没有构建步骤，也没有 Host 代码：整个补丁就是一个客户端模块（<code>lib/client.js</code>），由 DSH 作为浏览器 bundle 提供。MIT 许可。</p>
+<p>没有构建步骤，也没有 Host 代码 —— 一个客户端模块，MIT 许可。</p>
 
 <br clear="all">
 

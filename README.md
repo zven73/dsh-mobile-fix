@@ -24,7 +24,7 @@
 <li><strong>Files, terminal and code viewer work</strong> — the right panel is a full-screen sheet on a phone.</li>
 </ul>
 
-<p>No build step and no host code: the whole fix is one client module (<code>lib/client.js</code>) that DSH serves as a browser bundle. MIT licensed.</p>
+<p>No build step, no host code — one client module, MIT licensed.</p>
 
 <br clear="all">
 
