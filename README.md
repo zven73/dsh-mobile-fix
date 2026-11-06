@@ -43,6 +43,7 @@
 7. **The right panel works.** Its grid track is 0px on a phone, so Files, Terminal and the file/code previews opened into nothing. While open (`data-sidebar-right-open`) it becomes a full-screen sheet.
 8. **Code and tables stay inside the message** and scroll on their own; code in the file viewer is 12px instead of 11px.
 9. **The iOS keyboard accessory bar no longer sticks.** In a standalone PWA iOS can leave the previous/next/Done bar pinned at the bottom after the keyboard is dismissed; the plugin drops the field's focus when the keyboard closes.
+10. **File links open inside the app.** A raw `/api/file` URL opened from the installed app hands the resource to iOS, which shows it in a native Quick Look sheet with no way back — the only escape was killing the app. The plugin catches those links (and `window.open` calls) and shows the file in an overlay: image inline, PDF in a frame, anything else as a download link. Close with the button, a tap outside, Escape, or the back gesture.
 
 ## Install
 

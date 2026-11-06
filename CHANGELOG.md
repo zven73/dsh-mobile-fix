@@ -3,6 +3,17 @@
 All notable changes to this plugin. The version lives in `lib/client.js`
 (`VERSION`) and in `package.json`; both must match.
 
+## 0.7.0
+
+- File links open inside the app. A raw `/api/file` URL opened from a
+  standalone PWA hands the resource to iOS, which shows it in a native Quick
+  Look sheet with no way back — the only escape was killing the app. The
+  plugin now intercepts both `a[href]` clicks and `window.open` calls that
+  target a same-origin `/api/file` and renders the file in a full-screen
+  overlay: images inline, PDFs in a frame, anything else as a download link.
+  Close with the button, a tap outside, Escape, or the phone's back gesture
+  (the overlay pushes one history entry).
+
 ## 0.6.3
 
 - Settings → Account: the identity text and the "More account information"
