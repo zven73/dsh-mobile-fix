@@ -3,6 +3,20 @@
 All notable changes to this plugin. The version lives in `lib/client.js`
 (`VERSION`) and in `package.json`; both must match.
 
+## 0.9.0
+
+- **Gallery.** When the opened file sits in a group of images, the overlay pages
+  through them: swipe left/right, tap the left or right third like a story, or
+  use the arrows painted at the edges. A counter (`3 / 8`) shows the position and
+  the save button always saves the file you are looking at. The group comes from
+  the card's React props, so it includes images the virtualised list has not
+  rendered yet.
+- **Scroll is kept.** Opening an overlay remembers every scrollable surface of
+  the app and restores it on close, so the chat no longer jumps to the top after
+  a preview.
+- The preview now opens by tapping the card itself; the separate "open" and
+  "download" buttons are gone.
+
 ## 0.8.0
 
 - The file overlay previews more than pictures: audio plays in a player, video
