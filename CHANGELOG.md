@@ -3,6 +3,14 @@
 All notable changes to this plugin. The version lives in `lib/client.js`
 (`VERSION`) and in `package.json`; both must match.
 
+## 0.6.3
+
+- Settings → Account: the identity text and the "More account information"
+  link no longer share one row on a phone. The link won the width and the name
+  collapsed into a ~90px column ("Signed / in to / DeepSeek"); the card now
+  stacks the identity above the link.
+- Balance rows wrap their buttons under the label instead of squeezing it.
+
 ## 0.6.2
 
 - Drop the field's focus when the iOS keyboard closes. In a standalone PWA iOS

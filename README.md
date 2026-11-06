@@ -37,7 +37,7 @@
 3. **The drawer closes** when you pick a session, when you tap outside it, and by its own close button. The bottom safe area is respected.
 4. **Session rows open on the first tap.** iOS treats a plain `<div role="treeitem">` with a React handler as "not clickable" and holds its click for the double-tap window (~300ms). Closing the drawer first unmounted the row, so the tap only closed the menu. The row's click is now dispatched synchronously from `pointerup`, and the late native click of the same tap is swallowed.
 5. **Edge swipes.** Swipe from the left edge to open, swipe left to close. Vertical drags stay with the scroller (36px threshold, 34px vertical drift, 24px edge zone).
-6. **Settings fit the phone.** The desktop dialog keeps a 188px nav column next to the content — on a 390px screen that left ~150px. On narrow screens the section list becomes a horizontal, scrollable strip above the content.
+6. **Settings fit the phone.** The desktop dialog keeps a 188px nav column next to the content — on a 390px screen that left ~150px. On narrow screens the section list becomes a horizontal, scrollable strip above the content, and the Account card stacks its identity above the "More account information" link instead of squeezing the name into a narrow column.
 7. **The right panel works.** Its grid track is 0px on a phone, so Files, Terminal and the file/code previews opened into nothing. While open (`data-sidebar-right-open`) it becomes a full-screen sheet.
 8. **Code and tables stay inside the message** and scroll on their own; code in the file viewer is 12px instead of 11px.
 9. **The iOS keyboard accessory bar no longer sticks.** In a standalone PWA iOS can leave the previous/next/Done bar pinned at the bottom after the keyboard is dismissed; the plugin drops the field's focus when the keyboard closes.
@@ -92,7 +92,7 @@ The package is a plain DSH client plugin: `cordis.patch.yml` inserts one empty H
 | --- | --- |
 | Page still looks desktop on the phone | Reload the page; check the plugin is in the `web` profile (`~/.dsh/profiles/web/package.json` → `bundles`) |
 | Settings does not open, or opens off-screen | `localStorage.setItem('dsh-mobile-fix-debug', '1')`, reload, read the red banner |
-| iOS still zooms on a field | Make sure the build is 0.6.2+ — the rule keys off the touch device, not the width |
+| iOS still zooms on a field | Make sure the build is 0.6.3+ — the rule keys off the touch device, not the width |
 | Drawer does not close on a tap | Try a real phone: desktop browser emulation fires `click` differently |
 | Right panel is blank | Open it from the session header; the sheet is per session, not global |
 | Session tap selects but does not open | Check the console for a JS error; the fix dispatches `click` from `pointerup` |
