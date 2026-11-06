@@ -1,0 +1,84 @@
+# Changelog
+
+All notable changes to this plugin. The version lives in `lib/client.js`
+(`VERSION`) and in `package.json`; both must match.
+
+## 0.6.2
+
+- Drop the field's focus when the iOS keyboard closes. In a standalone PWA iOS
+  can leave the keyboard accessory bar (previous / next field / Done) pinned to
+  the bottom of the screen while a text field keeps focus.
+
+## 0.6.1
+
+- The 16px field rule now follows the touch device (`html.dsh-mf-touch`), not
+  `max-width: 1023px`. A phone showing a wide desktop layout (mirrored and
+  stretched Mac screen) no longer autozooms on the composer.
+- `touch-action: manipulation` on buttons, menu rows and tabs, so a double tap
+  does not shift the next tap off its target.
+- Settings diagnostics moved behind `localStorage['dsh-mobile-fix-debug']`; the
+  off-screen rescue stays on.
+
+## 0.6.0
+
+- Touch-device detection and tap-target fixes.
+
+## 0.5.1
+
+- Settings keep the app's own panel size and centering; only the section list
+  becomes a horizontal strip. The full-screen sheet of 0.5.0 is gone.
+
+## 0.5.0
+
+- Settings on a phone: horizontal section strip, full-width content.
+- Right panel (Files, Terminal, file/code previews) opens as a full-screen sheet
+  while it is open, instead of a 0px grid track.
+- Code and tables stay inside the message and scroll on their own; code in the
+  file viewer is 12px.
+
+## 0.4.1
+
+- Earlier swipe trigger: 36px instead of 60px, vertical drift 34px instead of
+  45px.
+
+## 0.4.0
+
+- Edge swipes: from the left edge to open, swipe left to close. Vertical drags
+  cancel the gesture and stay with the scroller.
+
+## 0.3.5
+
+- Session rows open on the first tap on iOS. The row's `click` is dispatched
+  synchronously from `pointerup`, before the drawer unmounts the row; the late
+  native click of the same tap is swallowed in a 40px / 600ms window.
+
+## 0.3.4
+
+- Drawer close moved from `click` to `pointerup`, with a 12px movement threshold
+  and a 120ms delay so the session opens first.
+- Open/closed is measured by the column width, not by a CSS class.
+
+## 0.3.3
+
+- "New session" closes the drawer too; the row action buttons do not.
+- The scrim owns outside taps: they close the drawer and do not reach the chat.
+
+## 0.3.1
+
+- Tapping a session row and "New session" closes the drawer again; workspace
+  folders only expand.
+
+## 0.3.0
+
+- Closing only from the outside: the inside test uses both the DOM and the tap
+  coordinates, interactive controls are ignored, keyboard clicks do not close.
+
+## 0.2.0
+
+- Protected close: one click handler per page (a repeated apply replaces the
+  previous one), a 600ms toggle lock, and a blanket opt-out for interactive
+  controls.
+
+## 0.1.0
+
+- First version: 16px fields, the sidebar drawer, auto-close.

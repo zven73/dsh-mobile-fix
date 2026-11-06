@@ -17,7 +17,9 @@
     "README.md",
     "README.ru.md",
     "README.zh.md",
-    "LICENSE"
+    "LICENSE",
+    "CHANGELOG.md",
+    "CONTRIBUTING.md"
   ],
   "dsh": {
     "bundle": {
