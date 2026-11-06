@@ -13,17 +13,12 @@
 <img src="docs/demo.gif" alt="Drawer, session, settings and Files on a phone" align="left"><img src="docs/spacer.png" width="28" alt="" align="left">
 
 <p><strong>为 DeepSeek Harness Web UI 做的手机优先补丁：真正的抽屉、边缘滑动、可读的设置和可用的右侧面板 —— 不改动核心。</strong></p>
-<p>DSH 0.2.x 是桌面优先的：三栏网格、188px 的设置导航、宽度为 0 的右侧面板，以及会让 iOS 自动缩放的 14px 输入框。在 390px 宽的手机上，聊天只剩一条窄缝，设置对话框读不清，Files 和代码查看器根本打不开。</p>
-<p>本插件从外部修补客户端 bundle：Host 端为空，不复制也不修改任何核心文件，桌面布局保持不变。</p>
+<p>DSH 0.2.x 是桌面优先的：三栏网格、188px 的设置导航、宽度为 0 的右侧面板，以及会让 iOS 自动缩放的 14px 输入框。在手机上只剩一条窄缝的聊天、读不清的设置，以及打不开的 Files 和代码查看器。</p>
 <ul>
-<li><strong>不再触发 iOS 自动缩放</strong> —— 触屏设备上输入框一律 16px，即使手机显示宽屏桌面布局。</li>
-<li><strong>聊天占满宽度</strong> —— 侧边栏变成 56px 窄轨加浮层抽屉。</li>
-<li><strong>一次点击就打开会话</strong> —— 行的 <code>click</code> 从 <code>pointerup</code> 同步派发，iOS 来不及丢掉它。</li>
-<li><strong>边缘滑动</strong> —— 左缘右滑打开，左滑关闭。</li>
-<li><strong>设置读得清</strong> —— 分区变成横向条，内容占满面板。</li>
-<li><strong>Files、终端和代码查看器可用</strong> —— 右侧面板在手机上变成全屏面板。</li>
+<li><strong>不再触发 iOS 自动缩放</strong> — 触屏设备上输入框一律 16px，宽屏桌面布局下同样有效</li>
+<li><strong>聊天占满宽度</strong> — 56px 窄轨加浮层抽屉，支持边缘滑动</li>
+<li><strong>其余也能用</strong> — 设置、Files、终端和代码查看器</li>
 </ul>
-
 <p>没有构建步骤，也没有 Host 代码 —— 一个客户端模块，MIT 许可。</p>
 
 <br clear="all">

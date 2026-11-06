@@ -13,17 +13,12 @@
 <img src="docs/demo.gif" alt="Drawer, session, settings and Files on a phone" align="left"><img src="docs/spacer.png" width="28" alt="" align="left">
 
 <p><strong>A phone-first fix for the DeepSeek Harness Web UI — a real drawer, edge swipes, readable settings and a working right panel, without touching the core.</strong></p>
-<p>DSH 0.2.x is desktop-first: three-column grid, a 188px settings nav, a right panel that collapses to a 0px track, and a 14px composer that makes iOS zoom the page. On a 390px phone that leaves a sliver of chat, a settings dialog you cannot read, and no way to reach Files or the code viewer.</p>
-<p>This plugin patches the client bundle from the outside. The Host half is empty, no core file is copied or modified, and the desktop layout is untouched.</p>
+<p>DSH 0.2.x is desktop-first: a three-column grid, a 188px settings nav, a 0px right panel and a 14px composer that makes iOS zoom the page. On a phone that leaves a sliver of chat, unreadable settings and no way to reach Files or the code viewer.</p>
 <ul>
-<li><strong>No more iOS auto-zoom</strong> — 16px fields on any touch device, even when the phone shows a wide desktop layout.</li>
-<li><strong>The chat keeps the width</strong> — the sidebar becomes a 56px rail plus an overlay drawer.</li>
-<li><strong>One tap opens a session</strong> — the row's click is dispatched from <code>pointerup</code>, before iOS can drop it.</li>
-<li><strong>Edge swipes</strong> — left edge opens, swipe left closes.</li>
-<li><strong>Settings you can read</strong> — sections become a horizontal strip, content takes the full panel.</li>
-<li><strong>Files, terminal and code viewer work</strong> — the right panel is a full-screen sheet on a phone.</li>
+<li><strong>No more iOS auto-zoom</strong> — 16px fields on any touch device, even under a wide desktop layout</li>
+<li><strong>The chat keeps the width</strong> — a 56px rail plus an overlay drawer, with edge swipes</li>
+<li><strong>Everything else fits</strong> — settings, Files, terminal and the code viewer</li>
 </ul>
-
 <p>No build step, no host code — one client module, MIT licensed.</p>
 
 <br clear="all">
