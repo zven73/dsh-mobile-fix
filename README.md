@@ -2,28 +2,37 @@
 
 # DSH Mobile UI
 
-**A phone-first fix for the DeepSeek Harness Web UI — a real drawer, edge swipes, readable settings and a working right panel, without touching the core.**
-
 [![DSH 0.2.x](https://img.shields.io/badge/dsh-0.2.x-blue)](#compatibility)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![Host code: none](https://img.shields.io/badge/host%20code-none-8a2be2)](#how-it-works)
 [![iOS PWA](https://img.shields.io/badge/iOS-PWA-black?logo=apple&logoColor=white)](#what-it-fixes)
 [![Client plugin](https://img.shields.io/badge/dsh--plugin-client%20bundle-0b7285)](#install)
 
-<img src="docs/demo.gif" alt="Drawer, session tap, settings and the Files panel on a phone" width="380">
-
 </div>
 
-DSH 0.2.x is desktop-first: three-column grid, a 188px settings nav, a right panel that collapses to a 0px track, and a 14px composer that makes iOS zoom the page. On a 390px phone that leaves a sliver of chat, a settings dialog you cannot read, and no way to reach Files or the code viewer.
+<table>
+<tr>
+<td width="360" valign="top">
+<img src="docs/demo.gif" alt="Drawer, session, settings and Files on a phone" width="360">
+</td>
+<td valign="top">
 
-This plugin patches the client bundle from the outside. The Host half is empty, no core file is copied or modified, and the desktop layout is untouched.
+<p><strong>A phone-first fix for the DeepSeek Harness Web UI — a real drawer, edge swipes, readable settings and a working right panel, without touching the core.</strong></p>
+<p>DSH 0.2.x is desktop-first: three-column grid, a 188px settings nav, a right panel that collapses to a 0px track, and a 14px composer that makes iOS zoom the page. On a 390px phone that leaves a sliver of chat, a settings dialog you cannot read, and no way to reach Files or the code viewer.</p>
+<p>This plugin patches the client bundle from the outside. The Host half is empty, no core file is copied or modified, and the desktop layout is untouched.</p>
+<ul>
+<li><strong>No more iOS auto-zoom</strong> — 16px fields on any touch device, even when the phone shows a wide desktop layout.</li>
+<li><strong>The chat keeps the width</strong> — the sidebar becomes a 56px rail plus an overlay drawer.</li>
+<li><strong>One tap opens a session</strong> — the row's click is dispatched from <code>pointerup</code>, before iOS can drop it.</li>
+<li><strong>Edge swipes</strong> — left edge opens, swipe left closes.</li>
+<li><strong>Settings you can read</strong> — sections become a horizontal strip, content takes the full panel.</li>
+<li><strong>Files, terminal and code viewer work</strong> — the right panel is a full-screen sheet on a phone.</li>
+</ul>
 
-- **No more iOS auto-zoom** — 16px fields on any touch device, even when the phone shows a wide desktop layout.
-- **The chat keeps the width** — the sidebar becomes a 56px rail plus an overlay drawer.
-- **One tap opens a session** — the row's click is dispatched from `pointerup`, before iOS can drop it.
-- **Edge swipes** — left edge opens, swipe left closes.
-- **Settings you can read** — sections become a horizontal strip, content takes the full panel.
-- **Files, terminal and code viewer work** — the right panel is a full-screen sheet on a phone.
+</td>
+</tr>
+</table>
+
 
 ---
 
