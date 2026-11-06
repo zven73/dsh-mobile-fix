@@ -10,7 +10,7 @@
 
 </div>
 
-<img src="docs/demo.gif" alt="Drawer, session, settings and Files on a phone" width="330" align="left" hspace="24" vspace="4">
+<img src="docs/demo.gif" alt="Drawer, session, settings and Files on a phone" width="300" align="left" hspace="24" vspace="4">
 
 <p><strong>Мобильный интерфейс для Web UI DeepSeek Harness: настоящий дровер, свайпы от края, читаемые настройки и работающая правая панель — без правок ядра.</strong></p>
 <p>DSH 0.2.x — десктопный: три колонки, навигация настроек в 188px, правая панель нулевой ширины и композер 14px, из-за которого iOS зумит страницу. На экране 390px остаётся полоска чата, нечитаемые настройки и никакого доступа к Files и просмотру кода.</p>
@@ -23,6 +23,8 @@
 <li><strong>Настройки читаются</strong> — разделы становятся горизонтальной полосой, контент занимает всю панель.</li>
 <li><strong>Files, терминал и просмотр кода работают</strong> — правая панель открывается полноэкранным листом.</li>
 </ul>
+
+<p>Без шага сборки и без кода на Host: весь фикс — один клиентский модуль (<code>lib/client.js</code>), который DSH отдаёт как браузерный бандл. Лицензия MIT.</p>
 
 <br clear="all">
 
