@@ -1,0 +1,8 @@
+# Applied when this package is listed in the profile's dsh.profile.bundles
+# (`dsh plugin --profile web add <path>` does that automatically).
+#
+# The Host half is a no-op: all behavior lives in the browser bundle that
+# `dsh.client` declares and `lib/client.js` provides.
+- insert:
+    - id: dsh-mobile-fix
+      name: dsh-mobile-fix
