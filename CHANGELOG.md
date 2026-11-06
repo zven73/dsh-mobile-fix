@@ -3,6 +3,14 @@
 All notable changes to this plugin. The version lives in `lib/client.js`
 (`VERSION`) and in `package.json`; both must match.
 
+## 0.8.0
+
+- The file overlay previews more than pictures: audio plays in a player, video
+  plays inline with `playsinline`, text and JSON render as a scrollable preview,
+  and a ZIP is unpacked in place — the archive's file list with sizes, and a tap
+  on an entry shows the picture or the text inside it (stored and deflated
+  entries, via `DecompressionStream`).
+
 ## 0.7.0
 
 - File links open inside the app. A raw `/api/file` URL opened from a
