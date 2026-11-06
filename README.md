@@ -57,8 +57,8 @@ git clone https://github.com/zven73/dsh-mobile-ui.git ~/.dsh/local-plugins/dsh-m
 dsh plugin --profile web add ~/.dsh/local-plugins/dsh-mobile-ui
 ```
 
-Restart `dsh web` (or let the profile re-compose) and reload the page on the
-phone. Client bundles are served from disk with a content revision, so a page
+`dsh plugin` needs `pnpm` on `PATH`. Restart `dsh web` (or let the profile
+re-compose) and reload the page on the phone. Client bundles are served from disk with a content revision, so a page
 reload is enough for later updates.
 
 > The package id stays `dsh-mobile-fix` (the repository was renamed); do not be
