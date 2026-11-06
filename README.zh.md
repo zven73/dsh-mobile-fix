@@ -10,7 +10,7 @@
 
 </div>
 
-<img src="docs/demo.gif" alt="Drawer, session, settings and Files on a phone" align="left"><img src="docs/spacer.png" width="28" alt="" align="left">
+<picture><source media="(max-width: 760px)" srcset="docs/pixel.png"><img src="docs/demo.gif" alt="Drawer, session, settings and Files on a phone" align="left"></picture><picture><source media="(max-width: 760px)" srcset="docs/pixel.png"><img src="docs/spacer.png" width="28" alt="" align="left"></picture>
 
 <p><strong>为 DeepSeek Harness Web UI 做的手机优先补丁：真正的抽屉、边缘滑动、可读的设置和可用的右侧面板 —— 不改动核心。</strong></p>
 <p>DSH 0.2.x 是桌面优先的：三栏网格、188px 的设置导航、宽度为 0 的右侧面板，以及会让 iOS 自动缩放的 14px 输入框。在手机上只剩一条窄缝的聊天、读不清的设置，以及打不开的 Files 和代码查看器。</p>
@@ -20,6 +20,8 @@
 <li><strong>其余也能用</strong> — 设置、Files、终端和代码查看器</li>
 </ul>
 <p>没有构建步骤，也没有 Host 代码 —— 一个客户端模块，MIT 许可。</p>
+
+<picture><source media="(min-width: 761px)" srcset="docs/pixel.png"><img src="docs/demo.gif" alt="Drawer, session, settings and Files on a phone" width="300"></picture>
 
 <br clear="all">
 
