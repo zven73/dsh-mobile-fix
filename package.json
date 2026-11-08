@@ -1,6 +1,6 @@
 {
   "name": "dsh-mobile-fix",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "private": true,
   "type": "module",
   "description": "Mobile UI patch for the DeepSeek Harness Web UI: iOS auto-zoom fix, sidebar drawer, edge swipes, phone-sized Settings and a full-screen right panel.",
@@ -19,7 +19,8 @@
     "README.zh.md",
     "LICENSE",
     "CHANGELOG.md",
-    "CONTRIBUTING.md"
+    "CONTRIBUTING.md",
+    "test"
   ],
   "dsh": {
     "bundle": {
@@ -49,5 +50,9 @@
   "homepage": "https://github.com/zven73/dsh-mobile-ui#readme",
   "bugs": {
     "url": "https://github.com/zven73/dsh-mobile-ui/issues"
+  },
+  "scripts": {
+    "test": "node --test test/",
+    "lint": "npx --yes eslint@8 --no-eslintrc --env browser,es2022 --parser-options=ecmaVersion:2022 --rule '{\"no-unused-vars\":\"error\",\"no-shadow\":\"warn\"}' lib/client.js"
   }
 }

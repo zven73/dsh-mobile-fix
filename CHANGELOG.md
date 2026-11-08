@@ -3,6 +3,49 @@
 All notable changes to this plugin. The version lives in `lib/client.js`
 (`VERSION`) and in `package.json`; both must match.
 
+## 0.10.0
+
+Review pass over the file overlay (all items verified against the code):
+
+- **Fixed** a double `decodeURIComponent`: `searchParams.get()` already decodes,
+  so a file named `100%.png` threw and the tap did nothing.
+- **Fixed** gallery URLs built from `location.href`: they now clone the opened
+  URL, keeping a deployment prefix (`/s/abc`) and the other query params.
+- **Fixed** a gallery opened on a non-image (a PDF next to pictures) showing the
+  first picture; it now falls back to a plain single-file preview.
+- **Fixed** the back gesture closing the sheet without restoring the scroll; one
+  teardown now serves the button, the backdrop, Escape and `popstate`.
+- **Fixed** reopening the overlay over itself consuming its own saved scroll and
+  racing the `history.back()`; the pop we cause is now ignored by handler.
+- **Fixed** `fetch` results being rendered without checking `response.ok`, so a
+  404 became "file content" and a save would write an error page.
+- **Fixed** incomplete disposal: `window.open` is restored, the
+  `__dshMobileFileOverlay` hook and the `dsh-mf-touch` class are removed, an open
+  sheet is closed, the drawer observer is disconnected.
+- Link interception now keys off the standalone/touch device instead of
+  `max-width: 1023px`, so an iPad in landscape is covered too; modified clicks
+  and `download` links are left alone.
+- ZIP: password-protected and ZIP64 entries are reported instead of failing
+  silently, and an entry larger than 64 MB is refused before inflating.
+- Scroll memory reads only the conversation containers instead of walking the
+  whole DOM.
+- The story gestures listen on the overlay root, so a swipe that starts on an
+  edge zone still pages.
+- Object URLs minted for archive images are revoked.
+- A pinch-zoom no longer looks like a closed keyboard and drops focus.
+- The temporary Settings diagnostics (red banner, `scrollIntoView`) are gone.
+- `:has()` on the app frame is replaced by one class on `<html>` kept in sync by
+  a throttled observer.
+- Overlay is a real dialog: `role="dialog"`, `aria-modal`, focus moves to the
+  close button and returns on close.
+- Strings come from a small ru/en dictionary with proper plurals («2 файла»),
+  chosen by `navigator.language`.
+- Housekeeping: unused `OPEN_PANEL` removed, shadowed names renamed, header
+  comment rewritten, duplicated CSS comment dropped.
+- **Tests and CI**: `node --test` covers the ZIP reader, `isFileUrl`,
+  `collectGallery`, `humanSize` and the plural rule; GitHub Actions runs syntax,
+  the version/`package.json` sync check, the tests and ESLint.
+
 ## 0.9.0
 
 - **Gallery.** When the opened file sits in a group of images, the overlay pages

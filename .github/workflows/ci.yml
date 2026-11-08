@@ -1,0 +1,35 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Syntax
+        run: node --check lib/client.js
+      - name: Version matches package.json
+        run: |
+          node -e '
+            const fs = require("node:fs");
+            const pkg = JSON.parse(fs.readFileSync("package.json", "utf8"));
+            const src = fs.readFileSync("lib/client.js", "utf8");
+            const m = src.match(/const VERSION = \x27([^\x27]+)\x27/);
+            if (!m) { console.error("VERSION not found in lib/client.js"); process.exit(1); }
+            if (m[1] !== pkg.version) {
+              console.error(`VERSION ${m[1]} !== package.json ${pkg.version}`);
+              process.exit(1);
+            }
+            console.log("version", pkg.version);
+          '
+      - name: Unit tests
+        run: node --test test/
+      - name: Lint
+        run: npx --yes eslint@8 --no-eslintrc --env browser,es2022 --parser-options=ecmaVersion:2022 --rule '{"no-unused-vars":"error","no-shadow":"warn"}' lib/client.js
