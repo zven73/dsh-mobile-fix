@@ -3,6 +3,17 @@
 All notable changes to this plugin. The version lives in `lib/client.js`
 (`VERSION`) and in `package.json`; both must match.
 
+## 0.12.2
+
+- **Locality no longer keys off the address alone.** The owner opens
+  `http://192.168.x.x:3080` from the very Mac that runs DSH, and the previous
+  rule hid the host actions there. Now: loopback and the desktop shell are
+  local; a phone user agent is remote; a desktop on a LAN address is local until
+  a WebRTC probe (skipped under automation) shows the page's address is not one
+  of the machine's own interfaces. `localStorage['dsh-mobile-fix-local']`
+  ('1' / '0') overrides everything.
+- Four unit tests cover that resolver; the browser suite keeps both cases.
+
 ## 0.12.1
 
 - The file viewer is its own factory now: `createFileViewer()` holds the overlay,

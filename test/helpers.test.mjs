@@ -82,6 +82,9 @@ function loadBundle(language = 'en-US', locationOverride = null) {
   return api.__test
 }
 
+const MAC_UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15'
+const PHONE_UA = 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 Mobile/15E148'
+
 const helpers = loadBundle()
 
 /** Same loader, but with a chosen page origin. */
@@ -190,23 +193,29 @@ test('collectGallery ignores a single image', () => {
   assert.equal(helpers.collectGallery(url, ['/w/a.png']), null)
 })
 
-test('isLocalClient is true only on the Host machine itself', () => {
-  const remote = loadBundle()
-  // the stub lives on 127.0.0.1, so it counts as the Host
-  assert.equal(remote.isLocalClient(), true)
+test('a loopback page is always the local client', () => {
+  const { resolveRemote } = loadBundle()
+  assert.equal(resolveRemote({ protocol: 'http:', hostname: '127.0.0.1', userAgent: MAC_UA, override: null }), false)
+  assert.equal(resolveRemote({ protocol: 'http:', hostname: 'localhost', userAgent: PHONE_UA, override: null }), false)
 })
 
-test('isLocalClient is checked against the page origin', async () => {
-  const cases = [
-    ['http://127.0.0.1:8765/', true],
-    ['http://localhost:8765/', true],
-    ['http://192.168.0.234:3080/', false],
-    ['https://dsh.example.com/', false],
-  ]
-  for (const [href, expected] of cases) {
-    const { isLocalClient } = loadBundleAt(href)
-    assert.equal(isLocalClient(), expected, href)
-  }
+test('a phone on the network is remote, a desktop on the network is not', () => {
+  const { resolveRemote } = loadBundle()
+  // the owner's case: the same Mac, opened through its LAN address
+  assert.equal(resolveRemote({ protocol: 'http:', hostname: '192.168.0.234', userAgent: MAC_UA, override: null }), false)
+  assert.equal(resolveRemote({ protocol: 'http:', hostname: '192.168.0.234', userAgent: PHONE_UA, override: null }), true)
+  assert.equal(resolveRemote({ protocol: 'https:', hostname: 'dsh.example.com', userAgent: PHONE_UA, override: null }), true)
+})
+
+test('the explicit override wins over detection', () => {
+  const { resolveRemote } = loadBundle()
+  assert.equal(resolveRemote({ protocol: 'http:', hostname: '192.168.0.234', userAgent: PHONE_UA, override: '1' }), false)
+  assert.equal(resolveRemote({ protocol: 'http:', hostname: '127.0.0.1', userAgent: MAC_UA, override: '0' }), true)
+})
+
+test('the desktop shell is local', () => {
+  const { resolveRemote } = loadBundle()
+  assert.equal(resolveRemote({ protocol: 'dsh-app:', hostname: '', userAgent: MAC_UA, override: null }), false)
 })
 
 test('humanSize formats bytes for a phone reader', () => {

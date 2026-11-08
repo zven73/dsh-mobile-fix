@@ -194,7 +194,14 @@ test('a remote client hides the host actions and gets them back on dispose', asy
   }
   // Served over the network, the client is remote: host-software buttons go away.
   const remote = await startFixture(lan)
-  const context = await browser.newContext({ viewport: { width: 390, height: 664 }, hasTouch: true, isMobile: true })
+  // A phone user agent: the same page over a LAN address, opened from a phone.
+  const context = await browser.newContext({
+    viewport: { width: 390, height: 664 },
+    hasTouch: true,
+    isMobile: true,
+    userAgent:
+      'Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Mobile/15E148 Safari/604.1',
+  })
   const page = await context.newPage()
   await page.goto(remote.base, { waitUntil: 'load' })
   await page.waitForFunction(() => document.querySelector('[class*="centerCol"]') !== null)
