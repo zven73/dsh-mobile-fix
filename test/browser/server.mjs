@@ -13,10 +13,9 @@ import { networkInterfaces } from 'node:os'
 
 const here = path.dirname(fileURLToPath(import.meta.url))
 
-const PNG_1X1 = Buffer.from(
-  'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==',
-  'base64',
-)
+// 200x200 so a preview has real dimensions: zone taps can then be compared
+// against the picture's own rectangle.
+const PNG_200 = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAIAAAAiOjnJAAABeElEQVR42u3SMQ0AAAgEsVeIJDziCBMMDE2q4HKpHjgXCTAWxsJYYCyMhbHAWBgLY4GxMBbGAmNhLIwFxsJYGAuMhbEwFhgLY2EsMBbGwlhgLIyFscBYGAtjgbEwFsYCY2EsjAXGwlgYC4yFsTAWGAtjYSwwFsbCWGAsjIWxwFgYC2OBsTAWxgJjYSyMBcbCWBgLjIWxMBYYC2NhLDAWxsJYYCyMhbHAWBgLY4GxMBbGAmNhLIyFsVTAWBgLY4GxMBbGAmNhLIwFxsJYGAuMhbEwFhgLY2EsMBbGwlhgLIyFscBYGAtjgbEwFsYCY2EsjAXGwlgYC4yFsTAWGAtjYSwwFsbCWGAsjIWxwFgYC2OBsTAWxgJjYSyMBcbCWBgLjIWxMBYYC2NhLDAWxsJYYCyMhbHAWBgLY4GxMBbGAmNhLIwFxsJYGAtjqYCxMBbGAmNhLIwFxsJYGAuMhbEwFhgLY2EsMBbGwlhgLIyFscBYGAtjgbH4ZgFjQyIFRHFJqQAAAABJRU5ErkJggg==', 'base64')
 
 /** Minimal ZIP writer: one stored and one deflated entry, same as the unit test. */
 function buildZip(entries) {
@@ -60,8 +59,8 @@ function buildZip(entries) {
 }
 
 const FILES = {
-  '/fake/image.png': { body: PNG_1X1, type: 'image/png' },
-  '/fake/second.png': { body: PNG_1X1, type: 'image/png' },
+  '/fake/image.png': { body: PNG_200, type: 'image/png' },
+  '/fake/second.png': { body: PNG_200, type: 'image/png' },
   '/fake/notes.txt': { body: Buffer.from('hello from the fixture\n'), type: 'text/plain' },
   '/fake/page.html': { body: Buffer.from('<!doctype html><title>fixture</title><p>page</p>'), type: 'text/html' },
   '/fake/archive.zip': {

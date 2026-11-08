@@ -114,6 +114,57 @@ test('a file link opens the overlay with the image', async () => {
   await context.close()
 })
 
+test('a picture in the answer opens the same sheet as a file card', async () => {
+  const { context, page } = await openPage()
+  await page.click('#inline-a')
+  await page.waitForTimeout(400)
+  const opened = await page.evaluate(() => {
+    const overlay = document.getElementById('dsh-mobile-file-overlay')
+    return {
+      overlay: Boolean(overlay),
+      role: overlay?.getAttribute('role'),
+      counter: [...(overlay?.querySelectorAll('span') || [])]
+        .map((node) => node.textContent)
+        .find((text) => /^\d+ \/ \d+$/.test(text)),
+    }
+  })
+  assert.equal(opened.overlay, true)
+  assert.equal(opened.role, 'dialog')
+  // both pictures of the message form one gallery
+  assert.equal(opened.counter, '1 / 2')
+  await page.keyboard.press('ArrowRight')
+  await page.waitForTimeout(120)
+  const second = await page.evaluate(() =>
+    [...document.querySelectorAll('#dsh-mobile-file-overlay span')]
+      .map((node) => node.textContent)
+      .find((text) => /^\d+ \/ \d+$/.test(text)),
+  )
+  assert.equal(second, '2 / 2')
+  await context.close()
+})
+
+test('a tap on the backdrop beside a narrow image closes the sheet', async () => {
+  const { context, page } = await openPage()
+  await page.evaluate(() => window.__dshMobileFileOverlay(
+    new URL('/api/file?path=%2Ffake%2Fimage.png', location.href),
+    ['/fake/image.png', '/fake/second.png'],
+  ))
+  await page.waitForTimeout(400)
+  // The 1x1 fixture image is tiny, so the left zone is mostly backdrop.
+  // The fixture picture is 200px wide on a 390px screen: x=20 is inside the zone
+  // but outside the picture, which must read as a backdrop tap.
+  const zone = await page.evaluate(() => {
+    const button = [...document.querySelectorAll('#dsh-mobile-file-overlay button')]
+      .find((node) => /previous|предыдущ/i.test(node.getAttribute('aria-label') || ''))
+    const rect = button.getBoundingClientRect()
+    return { x: rect.x + 8, y: rect.y + rect.height / 2 }
+  })
+  await page.mouse.click(zone.x, zone.y)
+  await page.waitForTimeout(300)
+  assert.equal(await page.evaluate(() => Boolean(document.getElementById('dsh-mobile-file-overlay'))), false)
+  await context.close()
+})
+
 test('a download link is not intercepted', async () => {
   const { context, page } = await openPage()
   const opened = await page.evaluate(() => {
@@ -148,11 +199,13 @@ test('a gallery pages with the edge zones and the counter', async () => {
       return span ? span.textContent : null
     })
   assert.equal(await readCounter(), '1 / 2')
-  await page.evaluate(() => {
-    const zone = [...document.querySelectorAll('#dsh-mobile-file-overlay button')]
-      .find((node) => /Следующий|Next/.test(node.getAttribute('aria-label') || ''))
-    zone.click()
+  // The zone is wide; tap it where the image actually is, which is what a reader does.
+  const nextSpot = await page.evaluate(() => {
+    const image = document.querySelector('#dsh-mobile-file-overlay img')
+    const rect = image.getBoundingClientRect()
+    return { x: rect.left + 8, y: rect.top + rect.height / 2 }
   })
+  await page.mouse.click(nextSpot.x, nextSpot.y)
   await page.waitForTimeout(120)
   assert.equal(await readCounter(), '2 / 2')
   await context.close()

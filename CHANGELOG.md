@@ -3,6 +3,24 @@
 All notable changes to this plugin. The version lives in `lib/client.js`
 (`VERSION`) and in `package.json`; both must match.
 
+## 0.14.0
+
+One preview, one component.
+
+- **Pictures inside an answer open the same sheet as attached files.** Tapping an
+  inline image in the transcript no longer hands off to the shell's own lightbox:
+  the phone sheet opens, the message's pictures form one gallery, and the arrows,
+  arrow keys and counter all work the same way. Desktop keeps the app's lightbox.
+- **The close button follows the shell's icon button.** `border-radius:999px;
+  corner-shape:round`, a 16px stroked cross instead of a text glyph, and
+  `display:grid; place-items:center` — the same recipe the app uses for its
+  28px action buttons, so the glyph is dead-centre at any font.
+- **Backdrop taps close, zones still page.** The left/right zones keep their
+  generous size, but a tap that lands inside a zone yet outside the picture's own
+  rectangle is read as "outside" and closes the sheet. With a single file open the
+  zones close instead of paging nowhere.
+- Taps inside the open sheet no longer try to open another one.
+
 ## 0.13.3
 
 - **Arrow keys page a gallery.** With more than one image open, `←` and `→` move

@@ -20,6 +20,7 @@
   .Test-newSession { height: 32px; }
   .Test-host-action { display: flex; }
   .Test-file-line { height: 300px; }
+  .Test-message img { width: 200px; height: 200px; object-fit: cover; }
 </style>
 </head>
 <body>
@@ -40,6 +41,10 @@
       <div class="Test-file-line">line</div>
       <div class="Test-file-line">line</div>
       <div class="Test-file-line">line</div>
+      <div class="Test-message" data-message-id="m1">
+        <img id="inline-a" src="/api/file?path=%2Ffake%2Fimage.png" alt="first" width="72" height="72">
+        <img id="inline-b" src="/api/file?path=%2Ffake%2Fsecond.png" alt="second" width="72" height="72">
+      </div>
       <a id="file-link" href="/api/file?path=%2Ffake%2Fimage.png">open image</a>
       <a id="download-link" href="/api/file?path=%2Ffake%2Fimage.png" download="image.png">download</a>
       <div id="host-slot" data-slot="deliverables.file.actions" style="display: contents">
