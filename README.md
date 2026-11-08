@@ -72,7 +72,6 @@ flowchart LR
   C --> E[56px rail + overlay drawer]
   C --> F[settings strip · right sheet]
   D --> E
-  B -. debug flag .-> G[off-screen rescue<br/>+ red banner]
 ```
 
 The package is a plain DSH client plugin: `cordis.patch.yml` inserts one empty Host row, and `lib/client.js` is the browser bundle DSH serves through `dsh.client`. Everything it does is CSS and DOM events:
@@ -94,7 +93,7 @@ The package is a plain DSH client plugin: `cordis.patch.yml` inserts one empty H
 | Symptom | What to do |
 | --- | --- |
 | Page still looks desktop on the phone | Reload the page; check the plugin is in the `web` profile (`~/.dsh/profiles/web/package.json` → `bundles`) |
-| Settings does not open, or opens off-screen | `localStorage.setItem('dsh-mobile-fix-debug', '1')`, reload, read the red banner |
+| Settings does not open, or opens off-screen | Reload the page; if the panel is missing entirely, open an issue with the phone model and the DSH version |
 | iOS still zooms on a field | Make sure the build is 0.10.0+ — the rule keys off the touch device, not the width |
 | Drawer does not close on a tap | Try a real phone: desktop browser emulation fires `click` differently |
 | Right panel is blank | Open it from the session header; the sheet is per session, not global |

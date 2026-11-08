@@ -3,6 +3,33 @@
 All notable changes to this plugin. The version lives in `lib/client.js`
 (`VERSION`) and in `package.json`; both must match.
 
+## 0.11.2
+
+Six interaction defects found in review, all fixed:
+
+- **ZIP memory.** Inflation now reads the decompression stream chunk by chunk and
+  aborts at 64 MiB, instead of buffering the whole entry and checking afterwards.
+  A 66 KB archive that expands to 65 MiB is refused as "too large" in ~2 s.
+- **Download links.** A link carrying `download` is skipped by the click
+  interceptor again: the overlay's own fallback link was reopening the viewer
+  instead of saving the file.
+- **Closing during a save.** The handler holds the button it started with and
+  checks that it is still in the document, so closing the sheet mid-share no
+  longer throws.
+- **Pinch with the keyboard open.** A width change is treated as a zoom and
+  returns early; only a height-only change is a keyboard dismissal. Focus is no
+  longer dropped by a pinch.
+- **Disposal restores the host buttons.** They are hidden by a class the
+  stylesheet owns (`html.dsh-mf-remote .dsh-mf-hidden`), not by an inline
+  `display: none`, and disposal removes the class.
+- **Right and middle click.** Row activation requires the primary button, so a
+  right click no longer selects a session and closes the drawer.
+
+Also: the ZIP error text now distinguishes a password-protected archive, a ZIP64
+archive and an oversized entry instead of always saying "unsupported
+compression"; the stale "red debug banner" instructions are gone from the three
+READMs and the issue template.
+
 ## 0.11.1
 
 - An HTML file opened from a link renders as a page in a sandboxed iframe

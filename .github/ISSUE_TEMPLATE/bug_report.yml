@@ -30,10 +30,10 @@ body:
     validations:
       required: true
   - type: textarea
-    id: debug
+    id: console
     attributes:
-      label: Debug banner (optional)
-      description: Set localStorage['dsh-mobile-fix-debug'] = '1', reload, and paste the red banner text
+      label: Console output (optional)
+      description: Open the browser console (or the Web Inspector on a connected iPhone) and paste anything red from the page
   - type: textarea
     id: screenshot
     attributes:
