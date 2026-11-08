@@ -122,6 +122,10 @@ The package is a plain DSH client plugin: `cordis.patch.yml` inserts one empty H
 ## Android notes
 
 - **The edge belongs to the system, so we start further in.** With Android 10+ gesture navigation the outermost strip is reserved for Back. On Android the opening swipe may start anywhere under 84px, and the system Back closes the drawer instead of leaving the conversation. The hamburger works everywhere.
+- **If the first open lands on `dsh web authentication required`**, the token was consumed by the
+  navigation (a fresh Chrome profile, a scanner's in-app browser or a first-run screen can swallow it).
+  Reload the page once: the cookie is already set, and the second load goes through. If it does not,
+  open the tokenized URL directly in Chrome and clear the site's cookies for that host.
 - **Installing the app needs HTTPS.** Chrome refuses "Install app" outside a secure context, and a LAN address over plain HTTP is not one. With `--tls-cert`/`--tls-key` (or a tunnel) the install prompt appears and the icon behaves like on iOS.
 - **No Share API over HTTP.** The preview's bottom button reads "Download file" and saves through a blob download, which Chrome on Android handles normally.
 - **The keyboard guard is iOS-specific.** Android resizes the layout viewport instead of the visual one, so the plugin's blur-on-keyboard-close simply never fires there — nothing to break.

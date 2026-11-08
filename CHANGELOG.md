@@ -3,6 +3,15 @@
 All notable changes to this plugin. The version lives in `lib/client.js`
 (`VERSION`) and in `package.json`; both must match.
 
+## 0.14.2
+
+- The Android notes cover the `dsh web authentication required` screen: the token
+  is consumed by the navigation when a fresh Chrome profile, a scanner's in-app
+  browser or a first-run screen swallows it, and a single reload goes through
+  because the cookie is already set. Verified in a real Android Chrome (API 34
+  emulator) where the token URL redirected to `/` and the first load asked for
+  authentication.
+
 ## 0.14.1
 
 Android gets the same care as iOS.
