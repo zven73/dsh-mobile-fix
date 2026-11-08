@@ -3,6 +3,17 @@
 All notable changes to this plugin. The version lives in `lib/client.js`
 (`VERSION`) and in `package.json`; both must match.
 
+## 0.13.2
+
+- **Android written down.** A Chromium run with a Pixel 7 profile (Chrome 158,
+  412×839) passes: the drawer opens from the hamburger, the overlay and the
+  remote-client rules behave the same, and the page reports `secureContext:
+  false`, `share: false` over a LAN HTTP address — so the save button reads
+  "Download file". The READMEs gain an Android section: the left edge belongs to
+  the system Back gesture, installing the app needs HTTPS, the Share API is
+  missing over plain HTTP, and the keyboard guard simply never fires on Android
+  (it resizes the layout viewport, not the visual one).
+
 ## 0.13.1
 
 - **The prerequisite is now documented.** `dsh --profile web` binds `127.0.0.1`

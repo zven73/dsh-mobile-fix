@@ -116,7 +116,15 @@ The package is a plain DSH client plugin: `cordis.patch.yml` inserts one empty H
 | --- | --- | --- | --- |
 | `0.2.1-rc.5` | `web` | Chromium fixture at 390×844 in CI, plus a real iPhone PWA by hand | tested |
 | other `0.2.x` | `web` | — | expected to work; a large layout redesign may need selector updates |
+| Android | `web` | Chromium with a Pixel 7 profile, Chrome 158 | layout works; see the Android note below |
 | desktop ≥ 1024px | `web` | macOS Chrome / Safari | untouched by design |
+
+## Android notes
+
+- **The edge swipe belongs to the system.** With Android 10+ gesture navigation the left edge is reserved for Back, so a swipe from the very edge usually returns instead of opening the drawer. The hamburger button always works; the drawer's own swipe-to-close still works because it starts inside the panel.
+- **Installing the app needs HTTPS.** Chrome refuses "Install app" outside a secure context, and a LAN address over plain HTTP is not one. With `--tls-cert`/`--tls-key` (or a tunnel) the install prompt appears and the icon behaves like on iOS.
+- **No Share API over HTTP.** The preview's bottom button reads "Download file" and saves through a blob download, which Chrome on Android handles normally.
+- **The keyboard guard is iOS-specific.** Android resizes the layout viewport instead of the visual one, so the plugin's blur-on-keyboard-close simply never fires there — nothing to break.
 
 ## Troubleshooting
 

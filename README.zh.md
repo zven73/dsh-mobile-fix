@@ -116,7 +116,15 @@ flowchart LR
 | --- | --- | --- | --- |
 | `0.2.1-rc.5` | `web` | iPhone 14 视口（390×844，WebKit）+ 真实 iPhone PWA | 已验证 |
 | 其他 `0.2.x` | `web` | — | 应当可用；大幅改版布局需要更新选择器 |
+| Android | `web` | Chromium 的 Pixel 7 配置, Chrome 158 | 布局可用；见下方 Android 说明 |
 | 桌面 ≥ 1024px | `web` | macOS Chrome / Safari | 按设计不受影响 |
+
+## Android 说明
+
+- **边缘滑动属于系统。** Android 10+ 手势导航把左边缘留给“返回”，所以从最边缘滑动通常是返回而不是打开抽屉。汉堡按钮始终可用；抽屉的滑动关闭仍然有效，因为它从面板内部开始。
+- **安装应用需要 HTTPS。** 在非安全上下文中 Chrome 不会提供“安装应用”，而局域网 HTTP 地址正属此类。使用 `--tls-cert`/`--tls-key`（或隧道）后会出现安装提示，图标行为与 iOS 一致。
+- **HTTP 下没有 Share API。** 预览底部按钮显示“Download file”，通过 blob 下载保存，Android Chrome 正常工作。
+- **键盘处理只针对 iOS。** Android 调整的是布局视口而非可视视口，因此键盘关闭时的失焦逻辑不会触发，也不会造成问题。
 
 ## 遇到问题
 
