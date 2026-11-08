@@ -3,6 +3,17 @@
 All notable changes to this plugin. The version lives in `lib/client.js`
 (`VERSION`) and in `package.json`; both must match.
 
+## 0.14.3
+
+- The READMEs also explain the follow-up: after a successful load the auth cookie
+  is valid for 30 days, so the home-screen shortcut should point at the bare
+  origin — the tokenized link is only for the first visit after a `dsh web`
+  restart.
+- `docs/upstream-android-auth.md` holds the upstream report: the tokenized URL
+  lands on "authentication required" on Android Chrome and a single reload fixes
+  it, with the probe results that isolate it to the request following the
+  redirect.
+
 ## 0.14.2
 
 - The Android notes cover the `dsh web authentication required` screen: the token

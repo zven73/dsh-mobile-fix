@@ -125,6 +125,8 @@ flowchart LR
 - **如果第一次打开出现 `dsh web authentication required`**，说明令牌被导航过程吞掉了（全新的 Chrome 配置、
   扫码器的内置浏览器或首次启动界面都可能如此）。刷新一次页面即可：cookie 已写入，第二次请求即可通过。
   若仍然不行，请在 Chrome 中直接打开带令牌的链接，并清除该站点的 cookie。
+- **主屏幕快捷方式用不带令牌的地址。** 首次成功登录后 cookie 有效 30 天，因此指向裸地址
+  `http://<host>:<port>/` 的快捷方式会直接进入应用；带令牌的链接只在 `dsh web` 重启后的第一次访问时需要。
 - **安装应用需要 HTTPS。** 在非安全上下文中 Chrome 不会提供“安装应用”，而局域网 HTTP 地址正属此类。使用 `--tls-cert`/`--tls-key`（或隧道）后会出现安装提示，图标行为与 iOS 一致。
 - **HTTP 下没有 Share API。** 预览底部按钮显示“Download file”，通过 blob 下载保存，Android Chrome 正常工作。
 - **键盘处理只针对 iOS。** Android 调整的是布局视口而非可视视口，因此键盘关闭时的失焦逻辑不会触发，也不会造成问题。

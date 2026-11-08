@@ -126,6 +126,9 @@ The package is a plain DSH client plugin: `cordis.patch.yml` inserts one empty H
   navigation (a fresh Chrome profile, a scanner's in-app browser or a first-run screen can swallow it).
   Reload the page once: the cookie is already set, and the second load goes through. If it does not,
   open the tokenized URL directly in Chrome and clear the site's cookies for that host.
+- **Add the shortcut without the token.** Once a load has succeeded, the auth cookie lives for 30 days,
+  so a home-screen shortcut to the bare `http://<host>:<port>/` opens straight into the app; keep the
+  tokenized link only for the first visit after a `dsh web` restart (the token is per process).
 - **Installing the app needs HTTPS.** Chrome refuses "Install app" outside a secure context, and a LAN address over plain HTTP is not one. With `--tls-cert`/`--tls-key` (or a tunnel) the install prompt appears and the icon behaves like on iOS.
 - **No Share API over HTTP.** The preview's bottom button reads "Download file" and saves through a blob download, which Chrome on Android handles normally.
 - **The keyboard guard is iOS-specific.** Android resizes the layout viewport instead of the visual one, so the plugin's blur-on-keyboard-close simply never fires there — nothing to break.
