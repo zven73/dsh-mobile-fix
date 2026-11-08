@@ -3,6 +3,25 @@
 All notable changes to this plugin. The version lives in `lib/client.js`
 (`VERSION`) and in `package.json`; both must match.
 
+## 0.10.1
+
+Second review pass.
+
+- **Fixed** an empty `aria-label` on the file dialog: it referenced a `name`
+  that was not in scope, so the browser silently used the global `window.name`.
+  The label now comes from the opened file.
+- The drawer class is derived from the panel's own `_collapsed` class instead of
+  the measured width, and a `ResizeObserver` watches the column — an animated
+  open or a re-mounted panel can no longer leave the drawer stuck.
+- `scrollables()` walks deeper into the conversation column (bounded to 400
+  nodes) instead of only its direct children.
+- The ZIP inflate cap also checks the bytes that actually came out, not only the
+  size the archive declares.
+- `test/` is no longer shipped in the npm package.
+- ESLint now runs with a real config (`eslint:recommended` plus
+  `no-restricted-globals` for `name`, `event`, `status`, `top`, `self`), so the
+  class of bug above is caught in CI.
+
 ## 0.10.0
 
 Review pass over the file overlay (all items verified against the code):

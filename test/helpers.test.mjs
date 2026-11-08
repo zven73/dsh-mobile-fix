@@ -35,6 +35,7 @@ function loadBundle(language = 'en-US') {
     URL,
     Element: class Element {},
     MutationObserver: class { observe() {} disconnect() {} },
+    ResizeObserver: class { observe() {} disconnect() {} },
     cancelAnimationFrame() {},
     TextDecoder,
     TextEncoder,

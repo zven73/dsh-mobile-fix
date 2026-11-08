@@ -32,4 +32,4 @@ jobs:
       - name: Unit tests
         run: node --test test/
       - name: Lint
-        run: npx --yes eslint@8 --no-eslintrc --env browser,es2022 --parser-options=ecmaVersion:2022 --rule '{"no-unused-vars":"error","no-shadow":"warn"}' lib/client.js
+        run: npx --yes eslint@8 lib/client.js
