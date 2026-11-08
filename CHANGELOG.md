@@ -3,6 +3,12 @@
 All notable changes to this plugin. The version lives in `lib/client.js`
 (`VERSION`) and in `package.json`; both must match.
 
+## 0.11.1
+
+- An HTML file opened from a link renders as a page in a sandboxed iframe
+  instead of a text dump. For a `.html` card the card itself now routes to the
+  shell's own preview, which also inlines the page's relative assets.
+
 ## 0.11.0
 
 - **Host-software actions are hidden for remote clients.** "Open in Finder / VS
