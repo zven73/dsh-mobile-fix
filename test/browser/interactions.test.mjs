@@ -158,6 +158,35 @@ test('a gallery pages with the edge zones and the counter', async () => {
   await context.close()
 })
 
+test('the arrow keys page a gallery', async () => {
+  const { context, page } = await openPage()
+  await page.evaluate(() => {
+    window.__dshMobileFileOverlay(
+      new URL('/api/file?path=%2Ffake%2Fimage.png', location.href),
+      ['/fake/image.png', '/fake/second.png'],
+    )
+  })
+  await page.waitForTimeout(300)
+  const readCounter = () =>
+    page.evaluate(() => {
+      const overlay = document.getElementById('dsh-mobile-file-overlay')
+      const span = [...overlay.querySelectorAll('span')].find((node) => /^\d+ \/ \d+$/.test(node.textContent))
+      return span ? span.textContent : null
+    })
+  assert.equal(await readCounter(), '1 / 2')
+  await page.keyboard.press('ArrowRight')
+  await page.waitForTimeout(120)
+  assert.equal(await readCounter(), '2 / 2')
+  await page.keyboard.press('ArrowLeft')
+  await page.waitForTimeout(120)
+  assert.equal(await readCounter(), '1 / 2')
+  // Escape still closes
+  await page.keyboard.press('Escape')
+  await page.waitForTimeout(200)
+  assert.equal(await page.evaluate(() => Boolean(document.getElementById('dsh-mobile-file-overlay'))), false)
+  await context.close()
+})
+
 test('a ZIP lists its files and refuses a bomb', async () => {
   const { context, page } = await openPage()
   await page.evaluate(() => window.open('/api/file?path=%2Ffake%2Farchive.zip', '_blank'))

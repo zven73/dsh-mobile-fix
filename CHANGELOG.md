@@ -3,6 +3,12 @@
 All notable changes to this plugin. The version lives in `lib/client.js`
 (`VERSION`) and in `package.json`; both must match.
 
+## 0.13.3
+
+- **Arrow keys page a gallery.** With more than one image open, `←` and `→` move
+  through the group, matching the arrows the overlay paints at the edges. Escape
+  still closes. Covered by a browser test.
+
 ## 0.13.2
 
 - **Android written down.** A Chromium run with a Pixel 7 profile (Chrome 158,
