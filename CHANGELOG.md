@@ -3,6 +3,18 @@
 All notable changes to this plugin. The version lives in `lib/client.js`
 (`VERSION`) and in `package.json`; both must match.
 
+## 0.11.0
+
+- **Host-software actions are hidden for remote clients.** "Open in Finder / VS
+  Code / Ghostty / QuickTime", "Show file location" and the chevron next to them
+  act on the machine that runs DSH, so on a phone — or any browser that reached
+  the Host over the network — they only take space and open nothing the user can
+  see. The client now marks itself `html.dsh-mf-remote` when the page origin is
+  not loopback (and not the desktop shell), and the open-in-app control is hidden
+  by a CSS rule plus a small DOM pass that removes the whole split control,
+  chevron included. A browser on `127.0.0.1`/`localhost` keeps everything.
+- `isLocalClient()` is covered by a unit test over four origins.
+
 ## 0.10.2
 
 - The repository is renamed `zven73/dsh-mobile-fix` to match the package id and

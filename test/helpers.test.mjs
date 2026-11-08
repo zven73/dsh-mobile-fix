@@ -13,11 +13,13 @@ const here = path.dirname(fileURLToPath(import.meta.url))
 const source = readFileSync(path.join(here, '..', 'lib', 'client.js'), 'utf8')
 
 /** Load the bundle and return the exports the plugin registers. */
-function loadBundle(language = 'en-US') {
+function loadBundle(language = 'en-US', locationOverride = null) {
   let registration = null
   const sandbox = {
     navigator: { language, maxTouchPoints: 0, standalone: false },
-    location: { href: 'http://127.0.0.1:8765/', origin: 'http://127.0.0.1:8765' },
+    location: locationOverride
+      ? { ...locationOverride, origin: new URL(locationOverride.href).origin }
+      : { href: 'http://127.0.0.1:8765/', origin: 'http://127.0.0.1:8765', hostname: '127.0.0.1', protocol: 'http:' },
     history: { pushState() {}, back() {}, state: null },
     localStorage: { getItem: () => null, setItem() {} },
     matchMedia: () => ({ matches: false, addEventListener() {}, removeEventListener() {} }),
@@ -81,6 +83,17 @@ function loadBundle(language = 'en-US') {
 }
 
 const helpers = loadBundle()
+
+/** Same loader, but with a chosen page origin. */
+function loadBundleAt(href) {
+  const url = new URL(href)
+  const proto = url.protocol
+  return loadBundle('en-US', {
+    href,
+    hostname: url.hostname,
+    protocol: proto,
+  })
+}
 
 /** Build a minimal ZIP in memory: one stored entry and one deflated entry. */
 function buildZip(entries) {
@@ -175,6 +188,25 @@ test('collectGallery returns null when the opened file is not in the group', () 
 test('collectGallery ignores a single image', () => {
   const url = new URL('http://127.0.0.1:8765/api/file?path=%2Fw%2Fa.png')
   assert.equal(helpers.collectGallery(url, ['/w/a.png']), null)
+})
+
+test('isLocalClient is true only on the Host machine itself', () => {
+  const remote = loadBundle()
+  // the stub lives on 127.0.0.1, so it counts as the Host
+  assert.equal(remote.isLocalClient(), true)
+})
+
+test('isLocalClient is checked against the page origin', async () => {
+  const cases = [
+    ['http://127.0.0.1:8765/', true],
+    ['http://localhost:8765/', true],
+    ['http://192.168.0.234:3080/', false],
+    ['https://dsh.example.com/', false],
+  ]
+  for (const [href, expected] of cases) {
+    const { isLocalClient } = loadBundleAt(href)
+    assert.equal(isLocalClient(), expected, href)
+  }
 })
 
 test('humanSize formats bytes for a phone reader', () => {
