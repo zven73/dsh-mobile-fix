@@ -3,6 +3,11 @@
 All notable changes to this plugin. The version lives in `lib/client.js`
 (`VERSION`) and in `package.json`; both must match.
 
+## 0.12.4
+
+- The `dsh-mf-drawer` class is only applied on narrow screens; on a desktop the
+  drawer rules are inside a media query and the class was pure noise.
+
 ## 0.12.3
 
 - `__dshMobileFixWhere()` in the page console reports what the plugin thinks of
