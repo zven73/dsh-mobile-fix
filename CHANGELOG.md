@@ -3,6 +3,22 @@
 All notable changes to this plugin. The version lives in `lib/client.js`
 (`VERSION`) and in `package.json`; both must match.
 
+## 0.14.1
+
+Android gets the same care as iOS.
+
+- **Back closes the drawer.** While the panel is open it owns a history entry, so
+  the system Back gesture closes the panel instead of leaving the conversation.
+  A row tap, the hamburger or a swipe-close retires that entry, so the next Back
+  is never swallowed.
+- **The opening swipe starts further in.** Android's gesture navigation claims the
+  outermost strip for Back, so on Android a swipe may begin anywhere under 84px
+  instead of the first 24px — a gesture you can actually perform.
+- **The keyboard guard is iOS-only.** Chrome on Android resizes the visual
+  viewport for its own reasons; the guard could read that as "keyboard closed"
+  and drop focus mid-typing. It now runs only on iOS/iPadOS.
+- Two browser tests cover the Android swipe start and the Back behaviour.
+
 ## 0.14.0
 
 One preview, one component.

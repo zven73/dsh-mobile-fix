@@ -83,6 +83,64 @@ test('a session row opens on pointerup and stays selected', async () => {
   await context.close()
 })
 
+test('Android: a swipe that starts inside the rail still opens the drawer', async () => {
+  const context = await browser.newContext({
+    viewport: { width: 390, height: 664 },
+    hasTouch: true,
+    isMobile: true,
+    userAgent:
+      'Mozilla/5.0 (Linux; Android 14; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/158.0.0.0 Mobile Safari/537.36',
+  })
+  const page = await context.newPage()
+  await page.goto(fixture.base, { waitUntil: 'load' })
+  await page.waitForFunction(() => document.querySelector('[class*="centerCol"]') !== null)
+  await page.waitForTimeout(150)
+  // 42px in: past the system Back strip, which is what the Android rule allows.
+  await page.evaluate(() => {
+    const touch = (x, y) => ({ clientX: x, clientY: y, identifier: 1 })
+    const fire = (type, x, y) => {
+      const event = new Event(type, { bubbles: true, cancelable: true })
+      Object.defineProperty(event, 'touches', { value: type === 'touchend' ? [] : [touch(x, y)] })
+      Object.defineProperty(event, 'changedTouches', { value: [touch(x, y)] })
+      document.body.dispatchEvent(event)
+    }
+    fire('touchstart', 42, 300)
+    for (let step = 1; step <= 8; step += 1) fire('touchmove', 42 + step * 18, 300)
+    fire('touchend', 186, 300)
+  })
+  await page.waitForTimeout(200)
+  assert.equal(await page.evaluate(() => document.documentElement.classList.contains('dsh-mf-drawer')), true)
+  await context.close()
+})
+
+test('the system Back closes the drawer instead of leaving the page', async () => {
+  const { context, page } = await openPage()
+  // Open through the plugin (an edge swipe), which is what pushes the entry.
+  await page.evaluate(() => {
+    const touch = (x, y) => ({ clientX: x, clientY: y, identifier: 1 })
+    const fire = (type, x, y) => {
+      const event = new Event(type, { bubbles: true, cancelable: true })
+      Object.defineProperty(event, 'touches', { value: type === 'touchend' ? [] : [touch(x, y)] })
+      Object.defineProperty(event, 'changedTouches', { value: [touch(x, y)] })
+      document.body.dispatchEvent(event)
+    }
+    fire('touchstart', 6, 300)
+    for (let step = 1; step <= 8; step += 1) fire('touchmove', 6 + step * 18, 300)
+    fire('touchend', 150, 300)
+  })
+  await page.waitForTimeout(250)
+  assert.equal(await page.evaluate(() => document.getElementById('panel').classList.contains('Test_collapsed')), false)
+  await page.goBack()
+  await page.waitForTimeout(300)
+  const state = await page.evaluate(() => ({
+    collapsed: document.getElementById('panel').classList.contains('Test_collapsed'),
+    url: location.href,
+  }))
+  assert.equal(state.collapsed, true, 'Back must close the panel')
+  assert.match(state.url, /^http:\/\/127\.0\.0\.1:/, 'Back must not leave the page')
+  await context.close()
+})
+
 test('a right click does not open a session', async () => {
   const { context, page } = await openPage()
   await page.evaluate(() => document.getElementById('toggle').click())
