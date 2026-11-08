@@ -3,6 +3,45 @@
 All notable changes to this plugin. The version lives in `lib/client.js`
 (`VERSION`) and in `package.json`; both must match.
 
+## 0.15.0
+
+Fixes from the third review (Claude Opus 5.5), which found two real interaction
+bugs and a handful of structural risks.
+
+- **Picking a session no longer bounces back.** The drawer's history entry is
+  retired only while the URL is still where the drawer was opened: the app pushes
+  its own entry when a session changes, and the old unconditional `history.back()`
+  used to undo that navigation.
+- **Back closes a drawer opened by the hamburger too.** The entry is now driven by
+  the panel's state, not by the swipe, so whatever opens the panel owns the entry
+  and gives it back on close.
+- **The drawn arrow always pages.** A 56px strip at each edge wins over the
+  "outside the picture" rule, so a tap on `›` beside a portrait picture pages
+  instead of closing the sheet. The unreachable single-file branch is gone.
+- **The body observer is filtered.** Mutations wake the drawer sync only when they
+  touch the sidebar or add a host-action control; streamed tokens no longer cost a
+  forced layout read per frame.
+- **The panel is found by its own wrapper** (`:scope > div > [class*="_root"]`), so
+  an unrelated `_root` earlier in the column can no longer pin the drawer "open".
+- **Inline pictures are intercepted only in the transcript**, not in the sidebar,
+  the right panel or the composer's attachment strip.
+- **The WebRTC probe is gone.** Chrome and Firefox hand out mDNS names, Safari
+  hides addresses without camera access — it almost always answered "unknown" and
+  cost ~100 lines and a peer connection per load. The user agent decides, with
+  `localStorage['dsh-mobile-fix-local']` as the override, and an iPad in desktop
+  mode (Macintosh UA + touch) now counts as mobile.
+- **Ordering hazard removed.** The drawer state is declared before anything that
+  may run synchronously and the helpers are hoisted functions; `no-use-before-define`
+  reports zero warnings (it was 16).
+- Minor: `interceptFileLinks` also requires a coarse pointer (a touch laptop with a
+  mouse keeps the desktop experience), `pushState` is guarded, text previews go
+  through the capped reader, a cancelled share keeps the capability-aware label,
+  and the package no longer ships `docs/` — the READMEs point at absolute URLs, so
+  the tarball is 47 kB instead of 1.4 MB.
+- Tests: the fixture grew a router, and two regressions now run in CI — "picking a
+  session after the drawer opened by swipe keeps that session" and "Back closes a
+  drawer opened by the hamburger".
+
 ## 0.14.3
 
 - The READMEs also explain the follow-up: after a successful load the auth cookie

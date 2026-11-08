@@ -84,7 +84,7 @@ const FILES = {
 export async function startFixture(host = '127.0.0.1') {
   const server = createServer(async (request, response) => {
     const url = new URL(request.url, 'http://127.0.0.1')
-    if (url.pathname === '/' || url.pathname === '/fixture.html') {
+    if (url.pathname === '/' || url.pathname === '/fixture.html' || url.pathname.startsWith('/s/')) {
       const html = await readFile(path.join(here, 'fixture.html'))
       response.writeHead(200, { 'content-type': 'text/html; charset=utf-8' })
       response.end(html)

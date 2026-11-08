@@ -10,7 +10,7 @@
 
 </div>
 
-<picture><source media="(max-width: 760px)" srcset="docs/pixel.png"><img src="docs/demo.gif" alt="Drawer, session, settings and Files on a phone" align="left"></picture><picture><source media="(max-width: 760px)" srcset="docs/pixel.png"><img src="docs/spacer.png" alt="" align="left"></picture>
+<picture><source media="(max-width: 760px)" srcset="https://raw.githubusercontent.com/zven73/dsh-mobile-fix/main/docs/pixel.png"><img src="https://raw.githubusercontent.com/zven73/dsh-mobile-fix/main/docs/demo.gif" alt="Drawer, session, settings and Files on a phone" align="left"></picture><picture><source media="(max-width: 760px)" srcset="https://raw.githubusercontent.com/zven73/dsh-mobile-fix/main/docs/pixel.png"><img src="https://raw.githubusercontent.com/zven73/dsh-mobile-fix/main/docs/spacer.png" alt="" align="left"></picture>
 
 <p><strong>为 DeepSeek Harness Web UI 做的手机优先补丁：真正的抽屉、边缘滑动、可读的设置和可用的右侧面板 —— 不改动核心。</strong></p>
 <p>DSH 0.2.x 是桌面优先的：三栏网格、188px 的设置导航、宽度为 0 的右侧面板，以及会让 iOS 自动缩放的 14px 输入框。在手机上只剩一条窄缝的聊天、读不清的设置，以及打不开的 Files 和代码查看器。</p>
@@ -21,7 +21,7 @@
 </ul>
 <p>没有构建步骤，也没有 Host 代码 —— 一个客户端模块，MIT 许可。</p>
 
-<picture><source media="(min-width: 761px)" srcset="docs/pixel.png"><img src="docs/demo.gif" alt="Drawer, session, settings and Files on a phone"></picture>
+<picture><source media="(min-width: 761px)" srcset="https://raw.githubusercontent.com/zven73/dsh-mobile-fix/main/docs/pixel.png"><img src="https://raw.githubusercontent.com/zven73/dsh-mobile-fix/main/docs/demo.gif" alt="Drawer, session, settings and Files on a phone"></picture>
 
 <br clear="all">
 
@@ -32,7 +32,7 @@
 
 | 侧边抽屉 | 设置 | 文件与代码 |
 | --- | --- | --- |
-| ![抽屉](docs/drawer.png) | ![设置](docs/settings.png) | ![文件](docs/right-panel.png) |
+| ![抽屉](https://raw.githubusercontent.com/zven73/dsh-mobile-fix/main/docs/drawer.png) | ![设置](https://raw.githubusercontent.com/zven73/dsh-mobile-fix/main/docs/settings.png) | ![文件](https://raw.githubusercontent.com/zven73/dsh-mobile-fix/main/docs/right-panel.png) |
 
 1. **iOS 自动缩放。** 聚焦的输入框小于 16px 时 Safari 会缩放页面。触屏设备上所有 `input` / `textarea` / `contenteditable` 都是 16px；判断依据是*设备*（`html.dsh-mf-touch`），不是视口宽度，所以手机显示拉伸的桌面布局时也不会缩放。`touch-action: manipulation` 避免双击把下一次点击带偏。
 2. **聊天占满宽度。** 侧边栏始终是 56px 窄轨，打开的面板变成带暗色遮罩和模糊的固定抽屉。

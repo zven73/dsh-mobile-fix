@@ -10,7 +10,7 @@
 
 </div>
 
-<picture><source media="(max-width: 760px)" srcset="docs/pixel.png"><img src="docs/demo.gif" alt="Drawer, session, settings and Files on a phone" align="left"></picture><picture><source media="(max-width: 760px)" srcset="docs/pixel.png"><img src="docs/spacer.png" alt="" align="left"></picture>
+<picture><source media="(max-width: 760px)" srcset="https://raw.githubusercontent.com/zven73/dsh-mobile-fix/main/docs/pixel.png"><img src="https://raw.githubusercontent.com/zven73/dsh-mobile-fix/main/docs/demo.gif" alt="Drawer, session, settings and Files on a phone" align="left"></picture><picture><source media="(max-width: 760px)" srcset="https://raw.githubusercontent.com/zven73/dsh-mobile-fix/main/docs/pixel.png"><img src="https://raw.githubusercontent.com/zven73/dsh-mobile-fix/main/docs/spacer.png" alt="" align="left"></picture>
 
 <p><strong>A phone-first fix for the DeepSeek Harness Web UI — a real drawer, edge swipes, readable settings and a working right panel, without touching the core.</strong></p>
 <p>DSH 0.2.x is desktop-first: a three-column grid, a 188px settings nav, a 0px right panel and a 14px composer that makes iOS zoom the page. On a phone that leaves a sliver of chat, unreadable settings and no way to reach Files or the code viewer.</p>
@@ -21,7 +21,7 @@
 </ul>
 <p>No build step, no host code — one client module, MIT licensed.</p>
 
-<picture><source media="(min-width: 761px)" srcset="docs/pixel.png"><img src="docs/demo.gif" alt="Drawer, session, settings and Files on a phone"></picture>
+<picture><source media="(min-width: 761px)" srcset="https://raw.githubusercontent.com/zven73/dsh-mobile-fix/main/docs/pixel.png"><img src="https://raw.githubusercontent.com/zven73/dsh-mobile-fix/main/docs/demo.gif" alt="Drawer, session, settings and Files on a phone"></picture>
 
 <br clear="all">
 
@@ -32,7 +32,7 @@
 
 | Sidebar drawer | Settings | Files and code |
 | --- | --- | --- |
-| ![Drawer](docs/drawer.png) | ![Settings](docs/settings.png) | ![Files](docs/right-panel.png) |
+| ![Drawer](https://raw.githubusercontent.com/zven73/dsh-mobile-fix/main/docs/drawer.png) | ![Settings](https://raw.githubusercontent.com/zven73/dsh-mobile-fix/main/docs/settings.png) | ![Files](https://raw.githubusercontent.com/zven73/dsh-mobile-fix/main/docs/right-panel.png) |
 
 1. **iOS auto-zoom.** Safari zooms a focused field under 16px. All `input` / `textarea` / `contenteditable` become 16px on touch devices; the check is the *device* (`html.dsh-mf-touch`), not the viewport width, so a phone showing a stretched desktop layout does not zoom either. `touch-action: manipulation` keeps double taps from moving the next tap off its target.
 2. **The chat keeps the full width.** The sidebar column stays a 56px rail; the open panel becomes a fixed overlay drawer with a dimmed, blurred scrim.

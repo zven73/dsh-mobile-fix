@@ -10,7 +10,7 @@
 
 </div>
 
-<picture><source media="(max-width: 760px)" srcset="docs/pixel.png"><img src="docs/demo.gif" alt="Drawer, session, settings and Files on a phone" align="left"></picture><picture><source media="(max-width: 760px)" srcset="docs/pixel.png"><img src="docs/spacer.png" alt="" align="left"></picture>
+<picture><source media="(max-width: 760px)" srcset="https://raw.githubusercontent.com/zven73/dsh-mobile-fix/main/docs/pixel.png"><img src="https://raw.githubusercontent.com/zven73/dsh-mobile-fix/main/docs/demo.gif" alt="Drawer, session, settings and Files on a phone" align="left"></picture><picture><source media="(max-width: 760px)" srcset="https://raw.githubusercontent.com/zven73/dsh-mobile-fix/main/docs/pixel.png"><img src="https://raw.githubusercontent.com/zven73/dsh-mobile-fix/main/docs/spacer.png" alt="" align="left"></picture>
 
 <p><strong>Мобильный интерфейс для Web UI DeepSeek Harness: настоящий дровер, свайпы от края, читаемые настройки и работающая правая панель — без правок ядра.</strong></p>
 <p>DSH 0.2.x — десктопный: три колонки, навигация настроек в 188px, правая панель нулевой ширины и композер 14px, из-за которого iOS зумит страницу. На телефоне остаётся полоска чата, нечитаемые настройки и никакого доступа к Files и просмотру кода.</p>
@@ -21,7 +21,7 @@
 </ul>
 <p>Без шага сборки и без кода на Host — один клиентский модуль, лицензия MIT.</p>
 
-<picture><source media="(min-width: 761px)" srcset="docs/pixel.png"><img src="docs/demo.gif" alt="Drawer, session, settings and Files on a phone"></picture>
+<picture><source media="(min-width: 761px)" srcset="https://raw.githubusercontent.com/zven73/dsh-mobile-fix/main/docs/pixel.png"><img src="https://raw.githubusercontent.com/zven73/dsh-mobile-fix/main/docs/demo.gif" alt="Drawer, session, settings and Files on a phone"></picture>
 
 <br clear="all">
 
@@ -32,7 +32,7 @@
 
 | Дровер | Настройки | Файлы и код |
 | --- | --- | --- |
-| ![Дровер](docs/drawer.png) | ![Настройки](docs/settings.png) | ![Файлы](docs/right-panel.png) |
+| ![Дровер](https://raw.githubusercontent.com/zven73/dsh-mobile-fix/main/docs/drawer.png) | ![Настройки](https://raw.githubusercontent.com/zven73/dsh-mobile-fix/main/docs/settings.png) | ![Файлы](https://raw.githubusercontent.com/zven73/dsh-mobile-fix/main/docs/right-panel.png) |
 
 1. **Автозум iOS.** Safari зумит страницу, когда в фокус попадает поле меньше
    16px. На тач-устройстве все `input` / `textarea` / `contenteditable`

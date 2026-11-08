@@ -43,6 +43,21 @@ async function openPage() {
   return { context, page, errors }
 }
 
+/** A left-edge swipe that opens the drawer the way a finger does. */
+const swipeOpen = (page) =>
+  page.evaluate(() => {
+    const touch = (x, y) => ({ clientX: x, clientY: y, identifier: 1 })
+    const fire = (type, x, y) => {
+      const event = new Event(type, { bubbles: true, cancelable: true })
+      Object.defineProperty(event, 'touches', { value: type === 'touchend' ? [] : [touch(x, y)] })
+      Object.defineProperty(event, 'changedTouches', { value: [touch(x, y)] })
+      document.body.dispatchEvent(event)
+    }
+    fire('touchstart', 6, 300)
+    for (let step = 1; step <= 8; step += 1) fire('touchmove', 6 + step * 18, 300)
+    fire('touchend', 150, 300)
+  })
+
 const tapRow = (page, selector) =>
   page.evaluate((sel) => {
     const row = document.querySelector(sel)
@@ -115,19 +130,7 @@ test('Android: a swipe that starts inside the rail still opens the drawer', asyn
 
 test('the system Back closes the drawer instead of leaving the page', async () => {
   const { context, page } = await openPage()
-  // Open through the plugin (an edge swipe), which is what pushes the entry.
-  await page.evaluate(() => {
-    const touch = (x, y) => ({ clientX: x, clientY: y, identifier: 1 })
-    const fire = (type, x, y) => {
-      const event = new Event(type, { bubbles: true, cancelable: true })
-      Object.defineProperty(event, 'touches', { value: type === 'touchend' ? [] : [touch(x, y)] })
-      Object.defineProperty(event, 'changedTouches', { value: [touch(x, y)] })
-      document.body.dispatchEvent(event)
-    }
-    fire('touchstart', 6, 300)
-    for (let step = 1; step <= 8; step += 1) fire('touchmove', 6 + step * 18, 300)
-    fire('touchend', 150, 300)
-  })
+  await swipeOpen(page)
   await page.waitForTimeout(250)
   assert.equal(await page.evaluate(() => document.getElementById('panel').classList.contains('Test_collapsed')), false)
   await page.goBack()
@@ -138,6 +141,33 @@ test('the system Back closes the drawer instead of leaving the page', async () =
   }))
   assert.equal(state.collapsed, true, 'Back must close the panel')
   assert.match(state.url, /^http:\/\/127\.0\.0\.1:/, 'Back must not leave the page')
+  await context.close()
+})
+
+test('Back also closes a drawer opened by the hamburger', async () => {
+  const { context, page } = await openPage()
+  await page.click('#toggle')
+  await page.waitForTimeout(250)
+  assert.equal(await page.evaluate(() => document.getElementById('panel').classList.contains('Test_collapsed')), false)
+  await page.goBack()
+  await page.waitForTimeout(300)
+  assert.equal(await page.evaluate(() => document.getElementById('panel').classList.contains('Test_collapsed')), true)
+  assert.match(page.url(), /^http:\/\/127\.0\.0\.1:/)
+  await context.close()
+})
+
+test('picking a session after the drawer opened by swipe keeps that session', async () => {
+  const { context, page } = await openPage()
+  await swipeOpen(page)
+  await page.waitForTimeout(250)
+  await page.evaluate(() => document.getElementById('row-b').click())
+  await page.waitForTimeout(400)
+  const state = await page.evaluate(() => ({
+    current: document.getElementById('current').textContent,
+    path: location.pathname,
+  }))
+  assert.equal(state.current, 'Session B')
+  assert.equal(state.path, '/s/b')
   await context.close()
 })
 
@@ -215,7 +245,9 @@ test('a tap on the backdrop beside a narrow image closes the sheet', async () =>
     const button = [...document.querySelectorAll('#dsh-mobile-file-overlay button')]
       .find((node) => /previous|предыдущ/i.test(node.getAttribute('aria-label') || ''))
     const rect = button.getBoundingClientRect()
-    return { x: rect.x + 8, y: rect.y + rect.height / 2 }
+    // Between the always-paging arrow strip (56px) and the picture's own left edge.
+    const picture = document.querySelector('#dsh-mobile-file-overlay img').getBoundingClientRect()
+    return { x: Math.max(60, picture.left - 20), y: rect.y + rect.height / 2 }
   })
   await page.mouse.click(zone.x, zone.y)
   await page.waitForTimeout(300)

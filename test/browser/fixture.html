@@ -13,7 +13,9 @@
   .Test-centerCol > .Test-chat { overflow-y: auto; flex: 1; padding: 8px; }
   .Test-rightbarCol { width: 0; overflow: hidden; }
   .Test_root { width: 280px; height: 100%; display: flex; flex-direction: column; gap: 6px; padding: 8px; }
-  .Test_root.Test_collapsed { display: none; }
+  /* Collapsed is the rail: the rows go, the hamburger stays reachable. */
+  .Test_root.Test_collapsed .Test-sessionRow,
+  .Test_root.Test_collapsed .Test-newSession { display: none; }
   .Test-toggle { width: 32px; height: 32px; }
   .Test-sessionRow { height: 32px; display: flex; align-items: center; padding: 0 8px; cursor: pointer; }
   .Test-sessionRow:hover { background: #22262e; }
@@ -68,12 +70,18 @@
   document.getElementById('toggle').addEventListener('click', () => {
     document.getElementById('panel').classList.toggle('Test_collapsed')
   })
-  for (const [id, name] of [['row-a', 'Session A'], ['row-b', 'Session B']]) {
+  // A router, like the shell's: picking a session rewrites the URL.
+  for (const [id, name, path] of [['row-a', 'Session A', '/s/a'], ['row-b', 'Session B', '/s/b']]) {
     document.getElementById(id).addEventListener('click', () => {
       document.getElementById('current').textContent = name
       document.getElementById('panel').classList.add('Test_collapsed')
+      history.pushState({ session: name }, '', path)
     })
   }
+  window.addEventListener('popstate', (event) => {
+    const name = event.state && event.state.session
+    if (name) document.getElementById('current').textContent = name
+  })
 </script>
 <script src="/lib/client.js"></script>
 <script>
