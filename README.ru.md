@@ -79,8 +79,8 @@
 ## Установка
 
 ```sh
-git clone https://github.com/zven73/dsh-mobile-ui.git ~/.dsh/local-plugins/dsh-mobile-ui
-dsh plugin --profile web add ~/.dsh/local-plugins/dsh-mobile-ui
+git clone https://github.com/zven73/dsh-mobile-fix.git ~/.dsh/local-plugins/dsh-mobile-fix
+dsh plugin --profile web add ~/.dsh/local-plugins/dsh-mobile-fix
 ```
 
 Для `dsh plugin` нужен `pnpm` в `PATH`. Перезапусти `dsh web` (или дай профилю

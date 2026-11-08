@@ -48,8 +48,8 @@
 ## Install
 
 ```sh
-git clone https://github.com/zven73/dsh-mobile-ui.git ~/.dsh/local-plugins/dsh-mobile-ui
-dsh plugin --profile web add ~/.dsh/local-plugins/dsh-mobile-ui
+git clone https://github.com/zven73/dsh-mobile-fix.git ~/.dsh/local-plugins/dsh-mobile-fix
+dsh plugin --profile web add ~/.dsh/local-plugins/dsh-mobile-fix
 ```
 
 `dsh plugin` needs `pnpm` on `PATH`. Restart `dsh web` (or let the profile re-compose) and reload the page on the phone. Client bundles are served from disk with a content revision, so later updates only need a page reload.

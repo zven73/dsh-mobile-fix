@@ -3,6 +3,15 @@
 All notable changes to this plugin. The version lives in `lib/client.js`
 (`VERSION`) and in `package.json`; both must match.
 
+## 0.10.2
+
+- The repository is renamed `zven73/dsh-mobile-fix` to match the package id and
+  the free npm name (an unrelated `dsh-mobile-ui` package already exists on
+  npm). GitHub redirects the old URL; the plugin id does not change, so an
+  installed profile keeps working.
+- `screenshots.json` next to `package.json` declares three storefront images for
+  the catalog detail view.
+
 ## 0.10.1
 
 Second review pass.

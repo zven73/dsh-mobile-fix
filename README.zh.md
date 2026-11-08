@@ -48,8 +48,8 @@
 ## 安装
 
 ```sh
-git clone https://github.com/zven73/dsh-mobile-ui.git ~/.dsh/local-plugins/dsh-mobile-ui
-dsh plugin --profile web add ~/.dsh/local-plugins/dsh-mobile-ui
+git clone https://github.com/zven73/dsh-mobile-fix.git ~/.dsh/local-plugins/dsh-mobile-fix
+dsh plugin --profile web add ~/.dsh/local-plugins/dsh-mobile-fix
 ```
 
 `dsh plugin` 需要 `PATH` 中有 `pnpm`。重启 `dsh web`（或让 profile 重新合成），然后在手机上刷新页面。客户端 bundle 从磁盘按内容版本提供，之后的更新只需刷新页面。
