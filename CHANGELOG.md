@@ -3,6 +3,13 @@
 All notable changes to this plugin. The version lives in `lib/client.js`
 (`VERSION`) and in `package.json`; both must match.
 
+## 0.12.3
+
+- `__dshMobileFixWhere()` in the page console reports what the plugin thinks of
+  this client: version, address it was opened on, user agent, stored override,
+  whether it ended up remote and what the WebRTC probe returned. The first thing
+  to ask for when the host actions look wrong on someone's machine.
+
 ## 0.12.2
 
 - **Locality no longer keys off the address alone.** The owner opens
