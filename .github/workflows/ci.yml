@@ -30,6 +30,20 @@ jobs:
             console.log("version", pkg.version);
           '
       - name: Unit tests
-        run: node --test test/
+        run: npm test
       - name: Lint
-        run: npx --yes eslint@8 lib/client.js
+        run: npm run lint
+
+  browser:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install Playwright
+        run: |
+          npm i --no-save playwright@1.65.0
+          npx playwright install --with-deps chromium
+      - name: Interaction tests
+        run: npm run test:browser

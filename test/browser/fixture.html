@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>dsh-mobile-fix fixture</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #0d0f14; color: #e8ecf2;
+    font: 14px/20px -apple-system, system-ui, sans-serif; }
+  .Test-frame { height: 100%; display: grid; grid-template-columns: 56px minmax(0, 1fr) 0; }
+  .Test-sidebarCol { background: #15171c; overflow: hidden; }
+  .Test-centerCol { min-width: 0; display: flex; flex-direction: column; }
+  .Test-centerCol > .Test-chat { overflow-y: auto; flex: 1; padding: 8px; }
+  .Test-rightbarCol { width: 0; overflow: hidden; }
+  .Test_root { width: 280px; height: 100%; display: flex; flex-direction: column; gap: 6px; padding: 8px; }
+  .Test_root.Test_collapsed { display: none; }
+  .Test-toggle { width: 32px; height: 32px; }
+  .Test-sessionRow { height: 32px; display: flex; align-items: center; padding: 0 8px; cursor: pointer; }
+  .Test-sessionRow:hover { background: #22262e; }
+  .Test-newSession { height: 32px; }
+  .Test-host-action { display: flex; }
+  .Test-file-line { height: 300px; }
+</style>
+</head>
+<body>
+<div class="Test-frame">
+  <div class="Test-sidebarCol">
+    <div>
+      <div class="Test_root Test_collapsed" id="panel">
+        <button class="Test-toggle" id="toggle" aria-label="toggle">≡</button>
+        <div class="Test-sessionRow" data-row-key="session:a" id="row-a">Session A</div>
+        <div class="Test-sessionRow" data-row-key="session:b" id="row-b">Session B</div>
+        <div class="Test-newSession" data-row-key="session:new" id="row-new">New session</div>
+      </div>
+    </div>
+  </div>
+  <div class="Test-centerCol">
+    <div class="Test-chat" id="chat">
+      <div id="current">Session A</div>
+      <div class="Test-file-line">line</div>
+      <div class="Test-file-line">line</div>
+      <div class="Test-file-line">line</div>
+      <a id="file-link" href="/api/file?path=%2Ffake%2Fimage.png">open image</a>
+      <a id="download-link" href="/api/file?path=%2Ffake%2Fimage.png" download="image.png">download</a>
+      <div id="host-slot" data-slot="deliverables.file.actions" style="display: contents">
+        <span class="Test-host-action" id="host-action">
+          <div data-open-target="file"><button data-open-path-open aria-label="Open in Finder">app</button></div>
+        </span>
+      </div>
+      <div contenteditable="true" id="composer" style="min-height: 40px; margin-top: 8px">composer</div>
+    </div>
+  </div>
+  <div class="Test-rightbarCol"></div>
+</div>
+
+<script>
+  // The bundle registers itself through this hook; the harness then applies it.
+  window.__ModuleLoader__ = {
+    load(registration) {
+      window.__dshMobileFixRegistration = registration
+    },
+  }
+  document.getElementById('toggle').addEventListener('click', () => {
+    document.getElementById('panel').classList.toggle('Test_collapsed')
+  })
+  for (const [id, name] of [['row-a', 'Session A'], ['row-b', 'Session B']]) {
+    document.getElementById(id).addEventListener('click', () => {
+      document.getElementById('current').textContent = name
+      document.getElementById('panel').classList.add('Test_collapsed')
+    })
+  }
+</script>
+<script src="/lib/client.js"></script>
+<script>
+  window.__disposers = []
+  const api = window.__dshMobileFixRegistration.factory()
+  api.apply({ effect: (fn) => { window.__disposers.push(fn()) } })
+</script>
+</body>
+</html>

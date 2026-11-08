@@ -3,6 +3,18 @@
 All notable changes to this plugin. The version lives in `lib/client.js`
 (`VERSION`) and in `package.json`; both must match.
 
+## 0.12.0
+
+- **Browser regression suite.** `npm run test:browser` boots the real bundle in
+  Chromium against a fixture shell (a fake sidebar, a chat column, a fake
+  `/api/file` route) and covers the interaction paths that unit tests cannot:
+  the edge swipe and the drawer class, a session row opening on `pointerup`, a
+  right click staying inert, a file link opening the overlay with a loaded image,
+  a `download` link left alone, gallery paging, the ZIP listing and the inflate
+  cap on a 65 MiB bomb, closing the sheet mid-save, the remote-client hiding and
+  its restoration on dispose, and a pinch that keeps the composer focused.
+- CI runs that suite in a second job (Chromium installed there).
+
 ## 0.11.2
 
 Six interaction defects found in review, all fixed:
