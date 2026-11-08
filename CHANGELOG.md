@@ -3,6 +3,13 @@
 All notable changes to this plugin. The version lives in `lib/client.js`
 (`VERSION`) and in `package.json`; both must match.
 
+## 0.12.1
+
+- The file viewer is its own factory now: `createFileViewer()` holds the overlay,
+  the `/api/file` interception, the gallery, the ZIP reader and their disposal,
+  while `apply()` keeps the drawer, the keyboard guard, the settings layout and
+  the remote-client rules. No behaviour change; both suites cover the split.
+
 ## 0.12.0
 
 - **Browser regression suite.** `npm run test:browser` boots the real bundle in

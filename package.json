@@ -1,6 +1,6 @@
 {
   "name": "dsh-mobile-fix",
-  "version": "0.12.0",
+  "version": "0.12.1",
   "private": true,
   "type": "module",
   "description": "Mobile UI patch for the DeepSeek Harness Web UI: iOS auto-zoom fix, sidebar drawer, edge swipes, phone-sized Settings and a full-screen right panel.",

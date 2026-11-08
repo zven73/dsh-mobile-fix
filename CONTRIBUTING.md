@@ -23,7 +23,9 @@ Open an issue with:
 3. Add a line to `CHANGELOG.md`.
 4. Check that the desktop layout is untouched at ≥ 1024px and that the phone
    layout still works at 390×844.
-5. In the PR, say what you changed and how you checked it (a screenshot or a
+5. Run `npm run check` (syntax, lint, unit tests) and `npm run test:browser`
+   (Chromium against the fixture shell, `npx playwright install chromium` once).
+6. In the PR, say what you changed and how you checked it (a screenshot or a
    short recording is welcome).
 
 ## Scope
