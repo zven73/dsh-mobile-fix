@@ -19,7 +19,8 @@
     "README.zh.md",
     "LICENSE",
     "CHANGELOG.md",
-    "CONTRIBUTING.md"
+    "CONTRIBUTING.md",
+    "screenshots.json"
   ],
   "dsh": {
     "bundle": {
