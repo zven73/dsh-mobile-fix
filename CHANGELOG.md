@@ -3,6 +3,40 @@
 All notable changes to this plugin. The version lives in `lib/client.js`
 (`VERSION`) and in `package.json`; both must match.
 
+## 0.13.0
+
+Fixes from a two-model review (DeepSeek V4.1 Flash on the OpenCode Go
+subscription and a local Qwen 3.8 27B), before promotion.
+
+- **Desktop stays desktop.** The `__dshMobileFileOverlay` hook now declines on a
+  pointer device, so a card on a desktop opens the app's own preview instead of
+  the phone overlay.
+- **One viewer per page.** A repeated `apply()` (HMR, live composition) disposes
+  the previous viewer first; two of them used to open two overlays and push two
+  history entries.
+- **Transfers are bounded.** The archive is read through a byte-capped stream
+  (256 MiB) instead of `arrayBuffer()`, text previews keep their own cap, and
+  closing the sheet aborts whatever is still downloading.
+- **Zip64** archives report "too large" instead of a generic read failure.
+- **Share sheet cancellation** no longer shows "Failed, try again".
+- **Right click** on a file link no longer opens the overlay.
+- **Size units follow the UI language** (`2 KB` vs `2 КБ`).
+- The locality probe only demotes when the page host is an IP literal (a
+  `macbook.local` name is not an address), ignores results after disposal, and
+  re-attaches its observer when the column is re-mounted; a media-query change at
+  1023px now re-syncs the drawer class.
+- Disposal cancels the pending drawer-close timer and drops a leftover history
+  entry.
+- **Packaging:** `private` removed so the package can be published, `docs/` added
+  to `files` (the README images were broken in the tarball), and `engines.dsh`
+  no longer admits 0.3 prereleases.
+- **Docs:** stale debug-banner instructions replaced with
+  `__dshMobileFixWhere()`, the zh diagram node removed, issue-template version
+  and troubleshooting versions corrected, changelog claim about the resolver
+  fixed.
+- **Tests:** the browser suite now opens the 65 MiB bomb member and asserts the
+  refusal, and checks that a pointer device does not get the overlay (12 tests).
+
 ## 0.12.4
 
 - The `dsh-mf-drawer` class is only applied on narrow screens; on a desktop the
@@ -88,7 +122,7 @@ READMs and the issue template.
   not loopback (and not the desktop shell), and the open-in-app control is hidden
   by a CSS rule plus a small DOM pass that removes the whole split control,
   chevron included. A browser on `127.0.0.1`/`localhost` keeps everything.
-- `isLocalClient()` is covered by a unit test over four origins.
+- `resolveRemote()` is covered by unit tests over loopback, a phone and a desktop on the LAN.
 
 ## 0.10.2
 

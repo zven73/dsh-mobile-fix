@@ -12,9 +12,9 @@ Open an issue with:
   carries it: `document.getElementById('dsh-mobile-fix').dataset.dshMobileFixVersion`);
 - what you did, what you expected, what happened — a phone screenshot beats a
   paragraph;
-- if a button or a panel misbehaves, the console output of
-  `localStorage.setItem('dsh-mobile-fix-debug', '1')` + reload (a red banner
-  reports the Settings path).
+- for anything about the drawer, the host-software buttons or the file preview,
+  the output of `__dshMobileFixWhere()` from the page console (it prints the
+  version, the address, the user agent and the locality decision).
 
 ## Sending a fix
 

@@ -95,7 +95,7 @@ The package is a plain DSH client plugin: `cordis.patch.yml` inserts one empty H
 | --- | --- |
 | Page still looks desktop on the phone | Reload the page; check the plugin is in the `web` profile (`~/.dsh/profiles/web/package.json` → `bundles`) |
 | Settings does not open, or opens off-screen | Reload the page; if the panel is missing entirely, open an issue with the phone model and the DSH version |
-| iOS still zooms on a field | Make sure the build is 0.10.0+ — the rule keys off the touch device, not the width |
+| iOS still zooms on a field | Make sure the build is 0.6.1+ — the rule keys off the touch device, not the width |
 | Drawer does not close on a tap | Try a real phone: desktop browser emulation fires `click` differently |
 | Right panel is blank | Open it from the session header; the sheet is per session, not global |
 | Session tap selects but does not open | Check the console for a JS error; the fix dispatches `click` from `pointerup` |

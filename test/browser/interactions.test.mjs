@@ -171,6 +171,40 @@ test('a ZIP lists its files and refuses a bomb', async () => {
   await context.close()
 })
 
+test('the bomb archive is refused as too large', async () => {
+  const { context, page } = await openPage()
+  await page.evaluate(() => window.open('/api/file?path=%2Ffake%2Fbomb.zip', '_blank'))
+  await page.waitForTimeout(600)
+  // The archive itself is tiny; the 65 MiB member is the bomb, so open it.
+  await page.evaluate(() => {
+    const row = [...document.querySelectorAll('#dsh-mobile-file-overlay button')]
+      .find((node) => /bomb\.bin/.test(node.textContent))
+    row.click()
+  })
+  await page.waitForTimeout(800)
+  const message = await page.evaluate(() => {
+    const overlay = document.getElementById('dsh-mobile-file-overlay')
+    return overlay ? overlay.innerText : ''
+  })
+  assert.match(message, /too large|слишком боль/i)
+  await context.close()
+})
+
+test('a pointer device does not get the phone overlay', async () => {
+  // A desktop browser: the hook must decline so the app's own preview is used.
+  const context = await browser.newContext({ viewport: { width: 1280, height: 800 } })
+  const page = await context.newPage()
+  await page.goto(fixture.base, { waitUntil: 'load' })
+  await page.waitForFunction(() => document.querySelector('[class*="centerCol"]') !== null)
+  await page.waitForTimeout(150)
+  const accepted = await page.evaluate(() =>
+    window.__dshMobileFileOverlay(new URL('/api/file?path=%2Ffake%2Fimage.png', location.href), []),
+  )
+  assert.equal(accepted, false)
+  assert.equal(await page.evaluate(() => Boolean(document.getElementById('dsh-mobile-file-overlay'))), false)
+  await context.close()
+})
+
 test('closing the sheet while a save is in flight does not throw', async () => {
   const { context, page, errors } = await openPage()
   await page.evaluate(async () => {

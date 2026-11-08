@@ -19,7 +19,7 @@ body:
     attributes:
       label: Versions
       description: DSH version and the plugin version from the style tag
-      placeholder: dsh 0.2.1-rc.5, plugin 0.6.2
+      placeholder: dsh 0.2.1-rc.5, plugin 0.12.5
     validations:
       required: true
   - type: textarea
@@ -33,7 +33,7 @@ body:
     id: console
     attributes:
       label: Console output (optional)
-      description: Open the browser console (or the Web Inspector on a connected iPhone) and paste anything red from the page
+      description: Paste anything red, plus the result of __dshMobileFixWhere() if the drawer, the host-software buttons or the file preview are involved
   - type: textarea
     id: screenshot
     attributes:

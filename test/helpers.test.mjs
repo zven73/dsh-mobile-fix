@@ -219,10 +219,12 @@ test('the desktop shell is local', () => {
 })
 
 test('humanSize formats bytes for a phone reader', () => {
-  assert.equal(helpers.humanSize(0), '0 Б')
-  assert.equal(helpers.humanSize(999), '999 Б')
-  assert.equal(helpers.humanSize(2048), '2 КБ')
-  assert.equal(helpers.humanSize(5 * 1024 * 1024), '5.0 МБ')
+  assert.equal(helpers.humanSize(0), '0 B')
+  assert.equal(helpers.humanSize(999), '999 B')
+  assert.equal(helpers.humanSize(2048), '2 KB')
+  assert.equal(helpers.humanSize(5 * 1024 * 1024), '5.0 MB')
+  const ru = loadBundle('ru-RU')
+  assert.equal(ru.humanSize(2048), '2 КБ')
   assert.equal(helpers.humanSize(Number.NaN), '')
 })
 
