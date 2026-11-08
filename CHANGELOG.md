@@ -3,6 +3,22 @@
 All notable changes to this plugin. The version lives in `lib/client.js`
 (`VERSION`) and in `package.json`; both must match.
 
+## 0.13.1
+
+- **The prerequisite is now documented.** `dsh --profile web` binds `127.0.0.1`
+  by default, so a phone on the same network cannot reach it. All three READMEs
+  gain a "Before you install" section: bind the LAN literal (wildcards are
+  rejected by design), allow the port on the firewall, open the tokenized URL
+  from the phone and re-add the shortcut after a restart (the token is per
+  process; `~/.dsh/link.txt` holds the current one), and the TLS flags with
+  `--public-url`/`--trusted-host` for a proxy.
+- **Secure-context reality.** Over plain HTTP on a LAN address the page is not a
+  secure context: `navigator.share` is missing, so the preview's bottom button
+  now says "Download file" instead of "Save to Files", and Chrome refuses to
+  install the app (iOS Safari still adds it to the home screen).
+- `__dshMobileFixWhere()` also reports `secureContext`, `standalone` and whether
+  the Share API is available.
+
 ## 0.13.0
 
 Fixes from a two-model review (DeepSeek V4.1 Flash on the OpenCode Go

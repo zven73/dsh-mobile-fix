@@ -46,6 +46,35 @@
 10. **文件链接在应用内打开。** 在已安装的应用里直接打开 `/api/file` 链接时，iOS 会接管并在原生 Quick Look 中显示，没有返回按钮 —— 只能杀掉应用。插件拦截这类链接（以及 `window.open` 调用），改用浮层显示：图片直接显示，PDF 用内嵌框，音视频用播放器，文本和 JSON 直接预览，ZIP 显示文件列表（点开可看里面的图片或文本）。一组图片可以像快拍一样左右滑动或点按左右边缘翻页，带计数器和保存当前文件的按钮；关闭浮层后会恢复聊天滚动位置。关闭方式：叉号、点空白、Esc 或返回手势。
 11. **只在有意义的客户端显示宿主机操作。** “Open in Finder / VS Code / QuickTime” 会在运行 DSH 的机器上启动程序，所以对外部客户端隐藏。判定顺序：loopback 与桌面壳视为本地；手机视为远程；通过局域网地址打开的桌面浏览器先视为本地，直到 WebRTC 探测显示该地址不属于本机。可用 `localStorage['dsh-mobile-fix-local'] = '1'`（本地）或 `'0'`（远程）强制指定。
 
+## 安装前：让 DSH 可被访问
+
+`dsh --profile web` 默认只监听 `127.0.0.1`（仅本机回环）。同一 Wi-Fi 下的手机打不开，直到你绑定真实的网卡地址并重新打开带进程令牌的 URL。
+
+1. **绑定本机的局域网地址。** 通配地址（`0.0.0.0`）被有意拒绝，必须给出具体字面量：
+
+   ```sh
+   # macOS: ipconfig getifaddr en0     Windows: ipconfig     Linux: hostname -I
+   dsh --profile web --host 192.168.0.54 --no-open
+   ```
+
+2. **放行端口。** macOS 会询问一次是否允许 `node` 接受入站连接，选允许；Windows 需要为该端口添加入站规则，否则手机会静默超时。
+
+3. **在手机上打开启动时打印的 URL。** 启动会输出 `dsh web: http://192.168.0.54:3080/?token=…`。令牌属于当前进程：重启后主屏幕上的旧图标会失效，需要重新添加或粘贴新链接；当前链接也保存在 `~/.dsh/link.txt`。
+
+4. **HTTPS 可选，但会改变体验。** 通过局域网 HTTP 打开时页面不是安全上下文：`navigator.share` 不可用，预览底部按钮显示 **“Download file”** 而不是 “Save to Files”，Chrome 也不允许“安装应用”。iOS Safari 仍可通过 HTTP 添加到主屏幕。需要完整体验就启用 TLS：
+
+   ```sh
+   dsh --profile web --host 192.168.0.54 --tls-cert ./chain.pem --tls-key ./key.pem
+   ```
+
+   在会剥离前缀的反向代理或隧道之后，声明公开根地址并信任该 authority：
+
+   ```sh
+   dsh --profile web --public-url https://dsh.example.com/ --trusted-host dsh.example.com
+   ```
+
+5. **只有运行 DSH 的机器才显示“在应用中打开”。** 这些操作会在宿主机上启动程序，所以插件对远程客户端隐藏它们。可强制：`localStorage['dsh-mobile-fix-local'] = '1'`（本地）或 `'0'`（远程）。页面控制台里的 `__dshMobileFixWhere()` 会打印判定、地址、User-Agent 以及页面是否为安全上下文。
+
 ## 安装
 
 ```sh

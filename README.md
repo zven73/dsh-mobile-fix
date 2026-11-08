@@ -46,6 +46,35 @@
 10. **File links open inside the app.** A raw `/api/file` URL opened from the installed app hands the resource to iOS, which shows it in a native Quick Look sheet with no way back — the only escape was killing the app. The plugin catches those links (and `window.open` calls) and shows the file in an overlay: image inline, PDF in a frame, audio and video in players, text and JSON as a preview, and a ZIP as its file list — tap an entry to see the picture or text inside. A group of images pages like a story: swipe, or tap the left/right edge, with a counter and a save button for the current one. Closing an overlay restores the chat scroll position. Close with the button, a tap outside, Escape, or the back gesture.
 11. **Host-software actions only where they work.** "Open in Finder / VS Code / QuickTime" acts on the machine that runs DSH, so it is hidden for a remote client. Locality is decided in three steps: loopback and the desktop shell are local; a phone is remote; a desktop on a LAN address is assumed local until a WebRTC probe shows its address is not one of the machine's own. Force the answer with `localStorage['dsh-mobile-fix-local'] = '1'` (local) or `'0'` (remote).
 
+## Before you install: make DSH reachable
+
+`dsh --profile web` binds `127.0.0.1` by default — loopback only. A phone on the same Wi-Fi cannot open it until you bind a real interface address and reopen the URL that carries the process token.
+
+1. **Bind your machine's LAN address.** Wildcard addresses (`0.0.0.0`) are rejected by design; give one concrete literal:
+
+   ```sh
+   # macOS: ipconfig getifaddr en0     Windows: ipconfig     Linux: hostname -I
+   dsh --profile web --host 192.168.0.54 --no-open
+   ```
+
+2. **Allow the port.** macOS asks once whether `node` may accept incoming connections — allow it. On Windows add an inbound rule for that port, otherwise the phone times out silently.
+
+3. **Open the printed URL on the phone.** Startup prints `dsh web: http://192.168.0.54:3080/?token=…`. The token is per process: after a restart the old home-screen shortcut stops working, so re-add it (or paste the new link) — the current link is also in `~/.dsh/link.txt`.
+
+4. **HTTPS is optional but changes what works.** Over plain HTTP on a LAN address the page is not a secure context, so `navigator.share` is unavailable and the preview's bottom button reads **Download file** instead of **Save to Files**; Chrome also refuses "Install app". iOS Safari still adds the page to the home screen over HTTP. For the full experience serve TLS:
+
+   ```sh
+   dsh --profile web --host 192.168.0.54 --tls-cert ./chain.pem --tls-key ./key.pem
+   ```
+
+   Behind a prefix-stripping proxy or a tunnel, advertise the public root and trust its authority:
+
+   ```sh
+   dsh --profile web --public-url https://dsh.example.com/ --trusted-host dsh.example.com
+   ```
+
+5. **Only the Host machine shows "Open in <app>".** Those actions launch software on the machine running DSH; the plugin hides them for remote clients. Force the answer with `localStorage['dsh-mobile-fix-local'] = '1'` (local) or `'0'` (remote). `__dshMobileFixWhere()` in the page console prints the decision, the address, the user agent and whether the page is a secure context.
+
 ## Install
 
 ```sh

@@ -211,7 +211,7 @@ test('closing the sheet while a save is in flight does not throw', async () => {
     window.open('/api/file?path=%2Ffake%2Fimage.png', '_blank')
     await new Promise((resolve) => setTimeout(resolve, 300))
     const button = [...document.querySelectorAll('#dsh-mobile-file-overlay button')]
-      .find((node) => /Сохранить|Save/.test(node.textContent))
+      .find((node) => /Сохранить|Save|Скачать|Download/.test(node.textContent))
     button.click()
     document.getElementById('dsh-mobile-file-overlay').remove()
   })
