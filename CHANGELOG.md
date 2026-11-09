@@ -3,6 +3,16 @@
 All notable changes to this plugin. The version lives in `lib/client.js`
 (`VERSION`) and in `package.json`; both must match.
 
+## 0.17.0
+
+- **Hold ⌘/Ctrl to force the system browser.** On a fine pointer, a modified click
+  on an external link opens it in the browser instead of the shell's panel, the
+  way editors behave. Without the modifier nothing changes.
+- **A one-time hint.** The first plain click on an external link shows a small
+  toast at the bottom: "Links open in the panel. Hold ⌘ or Ctrl to open them in
+  the browser." Once per page, auto-dismissed, and it never blocks the page.
+- Both are desktop-only: on a touch device there is no modifier to hold.
+
 ## 0.16.2
 
 - Documented how to keep external links inside DSH: the sandboxed browser tab is

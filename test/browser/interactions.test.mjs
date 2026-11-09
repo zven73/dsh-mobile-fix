@@ -261,6 +261,67 @@ test('a tap on the backdrop beside a narrow image closes the sheet', async () =>
   await context.close()
 })
 
+test('a desktop modifier click forces the system browser', async () => {
+  const context = await browser.newContext({ viewport: { width: 1280, height: 800 } })
+  const page = await context.newPage()
+  await page.goto(fixture.base, { waitUntil: 'load' })
+  await page.waitForFunction(() => document.querySelector('[class*="centerCol"]') !== null)
+  await page.addStyleTag({ content: 'a#external-link { color: #fff }' })
+  await page.evaluate(() => {
+    const link = document.createElement('a')
+    link.id = 'external-link'
+    link.href = 'https://example.com/release'
+    link.textContent = 'release'
+    link.addEventListener('click', (event) => event.preventDefault())
+    document.querySelector('[class*="centerCol"]').append(link)
+    window.__opened = []
+    const original = window.open
+    window.open = (url, ...rest) => {
+      window.__opened.push(String(url))
+      return null
+    }
+    window.__restoreOpen = () => { window.open = original }
+  })
+  // A synthetic click with the modifier: hit-testing a link in the fixture adds
+  // noise, and the plugin listens in the capture phase anyway.
+  await page.evaluate(() => {
+    const link = document.getElementById('external-link')
+    link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, ctrlKey: true }))
+  })
+  await page.waitForTimeout(200)
+  assert.deepEqual(await page.evaluate(() => window.__opened), ['https://example.com/release'])
+  await context.close()
+})
+
+test('a plain desktop click shows the hint once', async () => {
+  const context = await browser.newContext({ viewport: { width: 1280, height: 800 } })
+  const page = await context.newPage()
+  // Keep the fixture in place: the injected link has no shell handler to cancel it.
+  await page.route('**/example.com/**', (route) => route.abort())
+  await page.goto(fixture.base, { waitUntil: 'load' })
+  await page.waitForFunction(() => document.querySelector('[class*="centerCol"]') !== null)
+  await page.evaluate(() => {
+    const link = document.createElement('a')
+    link.id = 'external-link'
+    link.href = 'https://example.com/release'
+    link.textContent = 'release'
+    link.addEventListener('click', (event) => event.preventDefault())
+    document.querySelector('[class*="centerCol"]').append(link)
+  })
+  await page.click('#external-link')
+  await page.waitForTimeout(300)
+  const first = await page.evaluate(() => {
+    const toast = document.getElementById('dsh-mobile-link-toast')
+    return toast ? toast.textContent : null
+  })
+  assert.match(first || '', /Links open in the panel/)
+  await page.evaluate(() => document.getElementById('dsh-mobile-link-toast')?.remove())
+  await page.click('#external-link')
+  await page.waitForTimeout(200)
+  assert.equal(await page.evaluate(() => Boolean(document.getElementById('dsh-mobile-link-toast'))), false)
+  await context.close()
+})
+
 test('a download link is not intercepted', async () => {
   const { context, page } = await openPage()
   const opened = await page.evaluate(() => {
