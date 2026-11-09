@@ -13,7 +13,7 @@ const here = path.dirname(fileURLToPath(import.meta.url))
 const source = readFileSync(path.join(here, '..', 'lib', 'client.js'), 'utf8')
 
 /** Load the bundle and return the exports the plugin registers. */
-function loadBundle(language = 'en-US', locationOverride = null) {
+function loadBundle(language = 'en-US', locationOverride = null, pinnedLanguage = null) {
   let registration = null
   const sandbox = {
     navigator: { language, maxTouchPoints: 0, standalone: false },
@@ -21,7 +21,7 @@ function loadBundle(language = 'en-US', locationOverride = null) {
       ? { ...locationOverride, origin: new URL(locationOverride.href).origin }
       : { href: 'http://127.0.0.1:8765/', origin: 'http://127.0.0.1:8765', hostname: '127.0.0.1', protocol: 'http:' },
     history: { pushState() {}, back() {}, state: null },
-    localStorage: { getItem: () => null, setItem() {} },
+    localStorage: { getItem: (key) => (key === 'dsh-mobile-fix-lang' ? pinnedLanguage : null), setItem() {} },
     matchMedia: () => ({ matches: false, addEventListener() {}, removeEventListener() {} }),
     open: () => null,
     scrollTo() {},
@@ -88,6 +88,11 @@ const PHONE_UA = 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWe
 const helpers = loadBundle()
 
 /** Same loader, but with a chosen page origin. */
+/** Load the bundle with `localStorage['dsh-mobile-fix-lang']` pinned. */
+function loadBundleWithStorage(value) {
+  return loadBundle('en-US', { href: 'http://127.0.0.1:8765/' }, value)
+}
+
 function loadBundleAt(href) {
   const url = new URL(href)
   const proto = url.protocol
@@ -226,6 +231,18 @@ test('the sheet follows <html lang>, then the browser language', () => {
   assert.equal(zh.T.files(3), '个文件')
   const ru = loadBundle('ru-RU', { href: 'http://127.0.0.1:8765/' })
   assert.equal(ru.T.close, 'Закрыть')
+})
+
+test('an unknown interface language falls back to English', () => {
+  for (const tag of ['de-DE', 'fr', 'ja-JP', 'tr-TR', '']) {
+    const bundle = loadBundle(tag || 'en-US', { href: 'http://127.0.0.1:8765/' })
+    assert.equal(bundle.T.close, 'Close', tag)
+  }
+})
+
+test('an explicit language pin wins over the shell', () => {
+  const pinned = loadBundleWithStorage('ru')
+  assert.equal(pinned.T.close, 'Закрыть')
 })
 
 test('humanSize formats bytes for a phone reader', () => {

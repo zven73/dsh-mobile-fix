@@ -3,6 +3,15 @@
 All notable changes to this plugin. The version lives in `lib/client.js`
 (`VERSION`) and in `package.json`; both must match.
 
+## 0.16.1
+
+- Anything that is neither Russian nor Chinese falls back to English — the same
+  choice the shell makes for an unknown language (`ru-RU` → `en` when the shell
+  has no Russian).
+- `localStorage['dsh-mobile-fix-lang'] = 'ru' | 'en' | 'zh'` pins the sheet
+  regardless of the interface language, for people who run the shell in English
+  and want their own language here (or the reverse). An unknown value is ignored.
+
 ## 0.16.0
 
 - **The sheet speaks the shell's language.** Strings were selected from
