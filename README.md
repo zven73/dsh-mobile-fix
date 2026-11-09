@@ -133,6 +133,26 @@ The package is a plain DSH client plugin: `cordis.patch.yml` inserts one empty H
 - **No Share API over HTTP.** The preview's bottom button reads "Download file" and saves through a blob download, which Chrome on Android handles normally.
 - **The keyboard guard is iOS-specific.** Android resizes the layout viewport instead of the visual one, so the plugin's blur-on-keyboard-close simply never fires there — nothing to break.
 
+## Links open inside DSH
+
+The chat's own setting (**Settings → Chat → link opening**) decides where an external link goes, and the sandboxed browser tab it needs is disabled in the `web` profile — the bundle ships it as a desktop-only feature:
+
+```yaml
+# packages/.../cordis.patch.yml
+- id: ui-sidebar-browser
+  disabled: !!js "ctx.get('profileContext')?.name !== 'desktop'"
+```
+
+Without that tab the chat falls back to `window.open`, which on an installed app means a trip to Safari (and, with a universal link like GitHub's, a blank in-app Safari left behind). Re-enable the tab in your own profile patch — `~/.dsh/profiles/web/cordis.patch.yml`:
+
+```yaml
+- id: ui-sidebar-browser
+  name: "@deepseek-ai/dsh-client-ui-sidebar-browser"
+  disabled: false
+```
+
+Restart `dsh web`. Links now open in the right-panel browser, which this plugin already renders full-screen on a phone; the panel's own ↗ hands the page to the system browser when you want that. Some sites (GitHub among them) refuse to be framed and show an empty pane — that is their `X-Frame-Options`, not the panel.
+
 ## Troubleshooting
 
 | Symptom | What to do |

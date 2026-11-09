@@ -131,6 +131,26 @@ flowchart LR
 - **HTTP 下没有 Share API。** 预览底部按钮显示“Download file”，通过 blob 下载保存，Android Chrome 正常工作。
 - **键盘处理只针对 iOS。** Android 调整的是布局视口而非可视视口，因此键盘关闭时的失焦逻辑不会触发，也不会造成问题。
 
+## 链接在 DSH 内部打开
+
+外部链接由聊天设置决定（**设置 → 聊天 → 链接打开方式**），而它所依赖的沙箱浏览器在 `web` 配置中被禁用——bundle 把它标记为桌面端专属：
+
+```yaml
+# packages/.../cordis.patch.yml
+- id: ui-sidebar-browser
+  disabled: !!js "ctx.get('profileContext')?.name !== 'desktop'"
+```
+
+没有这个标签页，聊天会退回 `window.open`，在已安装的应用里意味着跳去 Safari（遇到 GitHub 这类 universal link 还会留下一个空白的应用内 Safari）。在你自己配置的补丁 `~/.dsh/profiles/web/cordis.patch.yml` 中启用它：
+
+```yaml
+- id: ui-sidebar-browser
+  name: "@deepseek-ai/dsh-client-ui-sidebar-browser"
+  disabled: false
+```
+
+重启 `dsh web`。链接将在右侧面板的浏览器中打开（本插件已让该面板在手机上全屏显示）；面板里的 ↗ 按钮可把页面交给系统浏览器。部分站点（包括 GitHub）禁止被嵌入，会显示空白区域——那是它们的 `X-Frame-Options`，不是面板的问题。
+
 ## 遇到问题
 
 | 现象 | 处理 |

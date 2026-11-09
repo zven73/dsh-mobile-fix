@@ -3,6 +3,15 @@
 All notable changes to this plugin. The version lives in `lib/client.js`
 (`VERSION`) and in `package.json`; both must match.
 
+## 0.16.2
+
+- Documented how to keep external links inside DSH: the sandboxed browser tab is
+  a desktop-only entry in the bundle, so on the `web` profile the chat falls back
+  to `window.open`. Re-enabling `ui-sidebar-browser` in the profile patch gives a
+  right-panel browser — full-screen on a phone thanks to this plugin — with the
+  panel's ↗ as the way out to Safari. Verified on a second instance: a link opens
+  a `github.com` tab in the panel instead of a popup.
+
 ## 0.16.1
 
 - Anything that is neither Russian nor Chinese falls back to English — the same
