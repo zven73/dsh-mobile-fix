@@ -218,6 +218,16 @@ test('the desktop shell is local', () => {
   assert.equal(resolveRemote({ protocol: 'dsh-app:', hostname: '', userAgent: MAC_UA, override: null }), false)
 })
 
+test('the sheet follows <html lang>, then the browser language', () => {
+  const en = loadBundle('en-US', { href: 'http://127.0.0.1:8765/' })
+  assert.equal(en.T.close, 'Close')
+  const zh = loadBundle('zh-CN', { href: 'http://127.0.0.1:8765/' })
+  assert.equal(zh.T.close, '关闭')
+  assert.equal(zh.T.files(3), '个文件')
+  const ru = loadBundle('ru-RU', { href: 'http://127.0.0.1:8765/' })
+  assert.equal(ru.T.close, 'Закрыть')
+})
+
 test('humanSize formats bytes for a phone reader', () => {
   assert.equal(helpers.humanSize(0), '0 B')
   assert.equal(helpers.humanSize(999), '999 B')

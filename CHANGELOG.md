@@ -3,6 +3,19 @@
 All notable changes to this plugin. The version lives in `lib/client.js`
 (`VERSION`) and in `package.json`; both must match.
 
+## 0.16.0
+
+- **The sheet speaks the shell's language.** Strings were selected from
+  `navigator.language`, which drifts from the interface language set in Settings.
+  They now follow `<html lang>` (the value the shell maintains) with the browser
+  language as a fallback, and a `MutationObserver` on that attribute picks up a
+  language switch without a reload.
+- **Chinese.** The third table: the shell itself ships `en-US` and `zh-CN`, so the
+  overlay, the archive messages, the sizes and the link sheet are now translated
+  into Chinese as well (`个文件` instead of an English plural).
+- **"Copied" is unmistakable.** The button turns green with a `✓` for 1.6 s; the
+  manual fallback turns amber instead of looking like an ordinary button.
+
 ## 0.15.2
 
 - **"Copy" works over plain HTTP.** `navigator.clipboard` only exists in a secure

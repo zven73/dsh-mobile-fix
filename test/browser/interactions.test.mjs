@@ -383,6 +383,30 @@ test('copy falls back to selecting the address when the clipboard is blocked', a
   await context.close()
 })
 
+test('the copied state is green and reverts', async () => {
+  const { context, page } = await openPage({ standalone: true })
+  await page.evaluate(() => window.open('https://example.com/x', '_blank'))
+  await page.waitForTimeout(300)
+  const first = await page.evaluate(async () => {
+    const root = document.getElementById('dsh-mobile-link-sheet')
+    const button = [...root.querySelectorAll('button')].find((node) => /Copy|Скопировать/.test(node.textContent))
+    document.execCommand = () => true
+    button.click()
+    await new Promise((resolve) => setTimeout(resolve, 150))
+    return { label: button.textContent, background: button.style.background }
+  })
+  assert.match(first.label, /✓/)
+  assert.equal(first.background, 'rgb(31, 122, 69)')
+  await page.waitForTimeout(1800)
+  const back = await page.evaluate(() => {
+    const root = document.getElementById('dsh-mobile-link-sheet')
+    const button = [...root.querySelectorAll('button')].find((node) => /Copy|Скопировать|Copied|Скопировано/.test(node.textContent))
+    return button ? { label: button.textContent, background: button.style.background } : null
+  })
+  assert.ok(!back || !back.label.includes('✓'), 'the tick goes away')
+  await context.close()
+})
+
 test('a same-origin link is not treated as external', async () => {
   const { context, page } = await openPage()
   await page.evaluate(() => window.open('/api/file?path=%2Ffake%2Fnotes.txt', '_blank'))
