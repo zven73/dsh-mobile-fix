@@ -363,6 +363,26 @@ test('an external link asks first in the installed app', async () => {
   await context.close()
 })
 
+test('copy falls back to selecting the address when the clipboard is blocked', async () => {
+  const { context, page } = await openPage({ standalone: true })
+  await page.evaluate(() => {
+    Object.defineProperty(navigator, 'clipboard', { value: undefined, configurable: true })
+    document.execCommand = () => false
+    window.open('https://example.com/some/long/path?with=query', '_blank')
+  })
+  await page.waitForTimeout(300)
+  const result = await page.evaluate(async () => {
+    const root = document.getElementById('dsh-mobile-link-sheet')
+    const button = [...root.querySelectorAll('button')].find((node) => /Copy|Скопировать/.test(node.textContent))
+    button.click()
+    await new Promise((resolve) => setTimeout(resolve, 200))
+    return { label: button.textContent, selected: String(window.getSelection()).slice(0, 40) }
+  })
+  assert.match(result.label, /Selected|Выделено/)
+  assert.match(result.selected, /example\.com/)
+  await context.close()
+})
+
 test('a same-origin link is not treated as external', async () => {
   const { context, page } = await openPage()
   await page.evaluate(() => window.open('/api/file?path=%2Ffake%2Fnotes.txt', '_blank'))

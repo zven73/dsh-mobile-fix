@@ -3,6 +3,14 @@
 All notable changes to this plugin. The version lives in `lib/client.js`
 (`VERSION`) and in `package.json`; both must match.
 
+## 0.15.2
+
+- **"Copy" works over plain HTTP.** `navigator.clipboard` only exists in a secure
+  context, and a LAN address over HTTP is not one — the button reported "Failed".
+  It now falls back to the legacy `textarea` + `execCommand('copy')` path, and if
+  even that is refused it selects the address and says "Selected — copy it
+  manually". The address itself is selectable too.
+
 ## 0.15.1
 
 - **An external link asks first in the installed app.** Opening a release link (or
