@@ -28,12 +28,18 @@ after(async () => {
 })
 
 /** Open the fixture in a phone-sized page and apply the plugin. */
-async function openPage() {
+async function openPage(options = {}) {
   const context = await browser.newContext({
     viewport: { width: 390, height: 664 },
     hasTouch: true,
     isMobile: true,
   })
+  // The installed-app path, opt-in per test.
+  if (options.standalone) {
+    await context.addInitScript(() => {
+      Object.defineProperty(navigator, 'standalone', { value: true, configurable: true })
+    })
+  }
   const page = await context.newPage()
   const errors = []
   page.on('pageerror', (error) => errors.push(error.message))
@@ -327,6 +333,41 @@ test('the arrow keys page a gallery', async () => {
   await page.keyboard.press('Escape')
   await page.waitForTimeout(200)
   assert.equal(await page.evaluate(() => Boolean(document.getElementById('dsh-mobile-file-overlay'))), false)
+  await context.close()
+})
+
+test('an external link asks first in the installed app', async () => {
+  const { context, page } = await openPage({ standalone: true })
+  const opened = await page.evaluate(() =>
+    window.open('https://github.com/zven73/dsh-mobile-fix/releases/tag/v0.15.0', '_blank'),
+  )
+  await page.waitForTimeout(300)
+  assert.equal(opened, null, 'the shell call must not leave the app immediately')
+  const sheet = await page.evaluate(() => {
+    const root = document.getElementById('dsh-mobile-link-sheet')
+    return root
+      ? {
+          host: root.querySelector('[data-part="host"]').textContent,
+          buttons: [...root.querySelectorAll('button')].map((button) => button.textContent),
+        }
+      : null
+  })
+  assert.equal(sheet.host, 'github.com')
+  assert.deepEqual(sheet.buttons, ['Cancel', 'Copy', 'Open'])
+  // dismissing leaves the app where it was
+  await page.evaluate(() => {
+    const root = document.getElementById('dsh-mobile-link-sheet')
+    ;[...root.querySelectorAll('button')].find((b) => b.textContent === 'Cancel').click()
+  })
+  assert.equal(await page.evaluate(() => Boolean(document.getElementById('dsh-mobile-link-sheet'))), false)
+  await context.close()
+})
+
+test('a same-origin link is not treated as external', async () => {
+  const { context, page } = await openPage()
+  await page.evaluate(() => window.open('/api/file?path=%2Ffake%2Fnotes.txt', '_blank'))
+  await page.waitForTimeout(400)
+  assert.equal(await page.evaluate(() => Boolean(document.getElementById('dsh-mobile-link-sheet'))), false)
   await context.close()
 })
 

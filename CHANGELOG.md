@@ -3,6 +3,19 @@
 All notable changes to this plugin. The version lives in `lib/client.js`
 (`VERSION`) and in `package.json`; both must match.
 
+## 0.15.1
+
+- **An external link asks first in the installed app.** Opening a release link (or
+  any `http(s)` address outside DSH) used to hand the page to Safari immediately;
+  with a universal link — GitHub, YouTube — the app switch left a blank in-app
+  Safari behind, which read like a broken preview. The plugin now shows a small
+  sheet with the host, the full address and **Open / Copy / Cancel**, so a stray
+  tap costs nothing and the destination is visible before leaving. Same-origin
+  links and `/api/file` are untouched; on the web (not installed) nothing changes.
+- Built-in browser note: if the shell is configured to open links in the sidebar
+  browser (the default), they never leave DSH at all — the sheet only appears on
+  the `window.open` path.
+
 ## 0.15.0
 
 Fixes from the third review (Claude Opus 5.5), which found two real interaction
